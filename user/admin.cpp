@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -30,4 +28,3 @@ int main(){
         cout << "Login successful! " << endl;
     }
 }
->>>>>>> Stashed changes
