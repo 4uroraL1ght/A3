@@ -20,11 +20,13 @@ class Motorbike{
         
         // set default attribute values in constructor
         Motorbike(string motorId, string model="None", string color="black", string engineSize="None", string transmissionMode="None", string description="None",
-        unsigned int yearMade=2023, double consumptionPoint=0, double minRenterRating=0, double ratingScore=0, bool isAvalable=true);
+        unsigned int yearMade=2023, double consumptionPoint=0, bool isAvalable=true, double minRenterRating=0, double ratingScore=0);
 
         ~Motorbike();
 
         void showInfo();
+
+        static Motorbike createObject(string line);
 
         void viewRequests();
 

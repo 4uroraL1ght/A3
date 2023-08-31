@@ -1,0 +1,2 @@
+M001,QJMotor,red,2500,automatic,A classic motorbike with a four-cylinder,2019,5,true,0,0
+M002,Ducati,blue,2500,semi automatic,A high-performance sportbike with a liquid-cooled engine,2020,4.5,true,0,0
