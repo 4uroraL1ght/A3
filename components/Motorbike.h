@@ -3,17 +3,21 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "../components/Motorbike.h"
+#include "../user/Member.h"
+#include "../action/Rental.h"
 
 using namespace std;
 
 class Motorbike{
     private:
-        // Member owner;
-        // vector<Member> requesters;   // vector of members requesting to rent
+        Member owner;
+        vector<Member> requesters;   // vector of members requesting to rent
         string motorId, model, color, engineSize, transmissionMode, description;
         unsigned int yearMade;
         double consumptionPoint, minRenterRating, ratingScore;
         bool isAvailable;
+        vector<Rental> rentals;    // store both accepted and requesting rentals
 
     public:
         Motorbike();
