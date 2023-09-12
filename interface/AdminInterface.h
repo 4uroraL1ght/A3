@@ -12,6 +12,8 @@ class AdminInterface{
         vector<Motorbike> motorbikes;
         
         AdminInterface();
+
+        void safeToFiles();
 };
 
 #endif

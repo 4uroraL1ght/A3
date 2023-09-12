@@ -15,8 +15,10 @@ class FileController{
         // FileController();
         // ~FileController();
 
+        // read from any file and return a vector of corresponding objects
         template <typename T>
         static vector<T> loadObjects(string fileName, T (*createObject)(string)){
+            // takes in the file name and the function createObject() (which is created in every class)
             vector<T> objects;
             ifstream file(fileName);
             string line;
@@ -26,12 +28,26 @@ class FileController{
             else {
                 while (getline(file, line)){
                     T temp = createObject(line);
-                    objects.push_back(temp);
+                    objects.push_back(move(temp));
                 }
             }
             file.close();
-            cout << "File closed.\n";
             return objects;
+        }
+
+        // take in file name and corresponding vector of objects -> write into file for saving
+        template<typename T>
+        static void writeObjects(string fileName, vector<T> objects) {
+            ofstream file(fileName);
+            if (!file.is_open()){
+                cerr << "Problem with the file.\n";
+            }
+            else {
+                for (T object : objects) {
+                    file << object.toString();
+                }
+            }
+            file.close();
         }
 
 };

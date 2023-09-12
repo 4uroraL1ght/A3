@@ -13,3 +13,8 @@ using namespace std;
 AdminInterface::AdminInterface(){
     this->motorbikes = FileController::loadObjects(MOTOR_FILE, Motorbike::createObject);
 }
+
+// safe all data (vectors of objects) back into files
+void AdminInterface::safeToFiles(){
+    FileController::writeObjects(MOTOR_FILE, motorbikes);
+}

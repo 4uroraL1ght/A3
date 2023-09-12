@@ -7,7 +7,7 @@
 using namespace std;
 
 Rental::Rental(string rentalId, Member owner, Member renter, int bday, int bmonth, int eday, int emonth, bool isAccepted)
-: rentalId(rentalId), owner(owner), renter(renter) {
+: rentalId(rentalId), owner(owner), renter(renter), isAccepted(isAccepted) {
     // initialize day and month in begin and end dates
     beginDate.tm_mday = bday;
     beginDate.tm_mon = bmonth;
