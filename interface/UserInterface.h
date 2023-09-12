@@ -1,5 +1,5 @@
-#ifndef ADMININTERFACE_H
-#define ADMININTERFACE_H
+#ifndef USERINTERFACE_H
+#define USERINTERFACE_H
 
 #include <vector>
 #include "../components/Motorbike.h"
@@ -8,14 +8,18 @@
 
 using namespace std;
 
-class AdminInterface{
+class UserInterface{
     public:
         vector<Motorbike> motorbikes;
         vector<Member> members;
         
-        AdminInterface();
+        UserInterface();
 
         void saveToFiles();
+
+        Motorbike* findMyMotorbike(string ownerId);
+
+        void runInterface();
 };
 
 #endif
