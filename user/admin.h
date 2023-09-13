@@ -1,3 +1,5 @@
+#ifndef ADMIN_H
+#define ADMIN_H
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -18,4 +20,5 @@ bool logging(){
      }else{
          return false;
      }
- }
+}
+#endif

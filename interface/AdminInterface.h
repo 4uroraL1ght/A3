@@ -16,6 +16,8 @@ class AdminInterface{
         AdminInterface();
 
         void saveToFiles();
+
+        int displayAdminMenu();
 };
 
 #endif
