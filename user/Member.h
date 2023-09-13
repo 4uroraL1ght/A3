@@ -23,6 +23,8 @@ class Member {
 
         void showInfo();
 
+        void findMyMotorbike(vector<Motorbike>& motorbikes);
+
         friend class Motorbike;
         friend class UserInterface;
 };

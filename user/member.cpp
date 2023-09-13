@@ -42,6 +42,15 @@ void Member::showInfo(){
     "; Expiry: " << expiryDate << "; " << city << "; Credit Points: " << creditPoints << "; Rating Score: " << renterRating << endl;
 }
 
+void Member::findMyMotorbike(vector<Motorbike>& motorbikes){
+    for (auto& mt : motorbikes){
+        if (userId == mt.ownerId){
+            this->motorbike = &mt;
+            return;
+        }
+    }
+    this->motorbike = nullptr;
+}
 
 /* Previous code */
 // bool logging_member(){

@@ -21,7 +21,11 @@ class UserInterface{
 
         int displayMemberMenu();
 
-        Motorbike* findMyMotorbike(string ownerId);
+        int displayMemMenuNoMotorbike();
+
+        void addNewMotorbike(Member* member);
+
+        Member* findMemberById(string memId);
 
         void runInterface();
 };

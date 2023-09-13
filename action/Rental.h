@@ -1,30 +1,34 @@
-// #ifndef RENTAL_H
-// #define RENTAL_H
-// #include <iostream>
-// #include <string>
-// #include <vector>
-// #include <sstream>
-// #include <ctime>
-// #include "../components/Motorbike.h"
-// #include "../user/Member.h"
+#ifndef RENTAL_H
+#define RENTAL_H
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>
+#include <ctime>
+#include "../components/Motorbike.h"
+#include "../user/Member.h"
 
-// using namespace std;
+using namespace std;
 
-// class Rental {
-//     private:
-//         string rentalId;
-//         Member owner, renter;
-//         tm beginDate, endDate;      // data type for storing date info
-//         bool isAccepted;
+class Member;   // forward declaration
 
-//     public:
-//         Rental(string rentalId = "", Member owner, Member renter, int bday, int bmonth, int eday, int emonth, bool isAccepted = false);
+class Rental {
+    private:
+        string rentalId;
+        Member* owner;
+        Member* renter;
+        tm beginDate, endDate;      // data type for storing date info
+        bool isAccepted;
 
-//         void showInfo();
+    public:
+        Rental(string rentalId = "", Member* owner = nullptr, Member* renter = nullptr, 
+        int bday = 1, int bmonth = 10, int eday = 5, int emonth = 10, bool isAccepted = false);
 
-//         // give access for other classes
-//         friend class Motorbike;
-//         friend class Member;
-// };
+        void showInfo();
 
-// #endif
+        // give access for other classes
+        friend class Motorbike;
+        friend class Member;
+};
+
+#endif
