@@ -17,6 +17,10 @@ class UserInterface{
 
         void saveToFiles();
 
+        Member* loginMember(int *userType, bool *isLoggedIn);
+
+        int displayMemberMenu();
+
         Motorbike* findMyMotorbike(string ownerId);
 
         void runInterface();

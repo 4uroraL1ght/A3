@@ -8,17 +8,19 @@
 
 using namespace std;
 
-Member::Member(string userId, string username, string fullName, string phoneNumber, string idType, string passportNum,
+Member::Member(string userId, string username, string password, string fullName, string phoneNumber, string idType, string passportNum,
         string driverLicenseNum, string expiryDate, string city, double creditPoints, double renterRating)
-        : userId(userId), username(username), fullName(fullName), phoneNumber(phoneNumber), idType(idType), passportNum(passportNum),
+        : userId(userId), username(username), password(password), fullName(fullName), phoneNumber(phoneNumber), idType(idType), passportNum(passportNum),
         driverLicenseNum(driverLicenseNum), expiryDate(expiryDate), city(city), creditPoints(creditPoints), renterRating(renterRating){}
 
+// take in a line of data and return Member object
 Member Member::createObject(string line){
     stringstream ss(line);
-    string temp, id, username, fullName, phone, idType, ppNum, licenseNum, expiryDate, city;
+    string temp, id, username, pw, fullName, phone, idType, ppNum, licenseNum, expiryDate, city;
     double credit, rating;
     getline(ss, id, ',');
     getline(ss, username, ',');
+    getline(ss, pw, ',');
     getline(ss, fullName, ',');
     getline(ss, phone, ',');
     getline(ss, idType, ',');
@@ -30,7 +32,7 @@ Member Member::createObject(string line){
     credit = stod(temp);
     getline(ss, temp, ',');
     rating = stod(temp);
-    return Member(id, username, fullName, phone, idType, ppNum, licenseNum, expiryDate, city, credit, rating);
+    return Member(id, username, pw, fullName, phone, idType, ppNum, licenseNum, expiryDate, city, credit, rating);
 }
 
 // show info in 1 line (used by admin to easily view list of all members)

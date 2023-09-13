@@ -1,8 +1,8 @@
 #include <iostream>
-#include "admin.h"
+#include "Admin.h"
 using namespace std;
 
-int main(){
+int adminLoggin(){
     bool login = logging();
     if(!login){
         cout << "Login failed please try again " << endl;
