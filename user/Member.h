@@ -26,6 +26,7 @@ class Member {
         void findMyMotorbike(vector<Motorbike>& motorbikes);
 
         friend class Motorbike;
+        friend class Rental;
         friend class UserInterface;
 };
 

@@ -68,17 +68,18 @@ Motorbike Motorbike::createObject(string line){
 }
 
 // make a request for renting the motorbike
-// void Motorbike::requestToRent(Member renter, int bday, int bmonth, int eday, int emonth){
-// }
-
-// show information of all requests
-// void Motorbike::viewRequests(){
-//     if (rentals.size() != 0){
-//         for (Rental rt : rentals){
-//         rt.showInfo();
-//         }
-//     } else cout << "This motorbike has no requests.\n";
-// }
+void Motorbike::requestToRent(Member* renter){
+    cout << "----- Create renting request (Year 2023) -----\n";
+    cout << "(Please enter the following rental information)\n";
+    int bday, bmonth, eday, emonth;
+    cout << "Beginning day: "; cin >> bday;
+    cout << "Beginning month: "; cin >> bmonth;
+    cout << "End day: "; cin >> eday;
+    cout << "End month: "; cin >> emonth;
+    Rental rental("id", this, renter, bday, bmonth, eday, emonth, false);
+    cout << "Your request has been created!\n";
+    rental.showInfo();
+}
 
 // display the current settings of listed values
 bool Motorbike::changeCurrentSettings(){
@@ -119,3 +120,12 @@ void Motorbike::unlistMotorbike(){
 void Motorbike::viewReviews(){
     // view data from MotorbikeReview.txt
 }
+
+// show information of all requests
+// void Motorbike::viewRequests(){
+//     if (rentals.size() != 0){
+//         for (Rental rt : rentals){
+//         rt.showInfo();
+//         }
+//     } else cout << "This motorbike has no requests.\n";
+// }

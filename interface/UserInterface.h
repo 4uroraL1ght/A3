@@ -27,6 +27,10 @@ class UserInterface{
 
         Member* findMemberById(string memId);
 
+        void searchSuitableMotorbikes(Member* mem);
+
+        void displayMotorbikes(vector<Motorbike> suitableMtb, Member* renter);
+
         void runInterface();
 };
 

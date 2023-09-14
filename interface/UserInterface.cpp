@@ -11,7 +11,7 @@
 using namespace std;
 
 UserInterface::UserInterface(){
-    motorbikes = FileController::loadObjects(MOTOR_FILE, Motorbike::createObject);
+    this->motorbikes = FileController::loadObjects(MOTOR_FILE, Motorbike::createObject);
     this->members = FileController::loadObjects(MEMBER_FILE, Member::createObject);
 }
 
@@ -124,6 +124,60 @@ void UserInterface::addNewMotorbike(Member* member){
     }
 }
 
+// function to display motorbike vector after searching
+void UserInterface::displayMotorbikes(vector<Motorbike> suitableMtb, Member* renter){
+    for (int i = 0; i < suitableMtb.size(); i++){
+        cout << i+1 << ". ";
+        suitableMtb[i].showInfo();
+    }
+    int userType = 0;
+    cout << "Please choose your next move:\n";
+    cout << "0. Exit\n1. View detail motorbike\n";
+    cout << "Enter your choice: ";
+    cin >> userType;
+    switch (userType){
+    case 0:
+        break;
+    case 1:
+        cout << "Enter the number of motorbike to view: ";
+        cin >> userType;
+        if (userType > 0 && (userType < suitableMtb.size()+1)){
+            suitableMtb[userType-1].showInfoDetail();
+            cout << "Rent this motorbike now? ( 0.No  1.Yes )\n";
+            cout << "Enter your choice: ";
+            cin >> userType;
+            if (userType == 0) return;
+            else if (userType == 1){
+                // call function to create new rental
+                suitableMtb[userType+1].requestToRent(renter);
+            } else {
+                cout << "Invalid choice!\n";
+                return;
+            }
+        }
+        break;
+    default:
+        cout << "Invalid choice!\n";
+        break;
+    }
+}
+
+// search for motorbikes that suitable with the member
+void UserInterface::searchSuitableMotorbikes(Member* member){
+    vector<Motorbike> suitableMotorbikes;
+    for (Motorbike mt : motorbikes){    // if 1 condition does not satisfied -> skip turn
+        if (mt.ownerId == member->userId) continue;
+        else if (!mt.isAvailable) continue;
+        else if (mt.minRenterRating > member->renterRating) continue;
+        else if (mt.city != member->city) continue;
+        suitableMotorbikes.push_back(mt);
+    }
+    if (suitableMotorbikes.size() == 0){    // if the counter unchange
+        cout << "There's no suitable motorbike available!\n";
+    } else     // display the motorbikes found
+    displayMotorbikes(suitableMotorbikes, member);
+}
+
 // main function for running UserInterface
 void UserInterface::runInterface(){
     int userType = 1;
@@ -153,7 +207,7 @@ void UserInterface::runInterface(){
         bool hasMotorbike = (loggedInMem->motorbike != nullptr);
 
         if (hasMotorbike){  // if member has a motorbike
-            userType = displayMemberMenu();   
+            userType = displayMemberMenu();
         } else      // if the member has no motorbike, display differently
             userType = displayMemMenuNoMotorbike();
         
@@ -172,6 +226,7 @@ void UserInterface::runInterface(){
             }
             break;
         case 3:     // search suitable motorbikes for rental
+            searchSuitableMotorbikes(loggedInMem);
             break;
         case 4:     // list your motorbike
             loggedInMem->motorbike->listMotorbike();

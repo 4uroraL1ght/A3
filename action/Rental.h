@@ -11,17 +11,18 @@
 using namespace std;
 
 class Member;   // forward declaration
+class Motorbike;
 
 class Rental {
     private:
         string rentalId;
-        Member* owner;
+        Motorbike* motorbike;
         Member* renter;
         tm beginDate, endDate;      // data type for storing date info
         bool isAccepted;
 
     public:
-        Rental(string rentalId = "", Member* owner = nullptr, Member* renter = nullptr, 
+        Rental(string rentalId = "", Motorbike* motorbike = nullptr, Member* renter = nullptr, 
         int bday = 1, int bmonth = 10, int eday = 5, int emonth = 10, bool isAccepted = false);
 
         void showInfo();

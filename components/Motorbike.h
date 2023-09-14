@@ -19,7 +19,7 @@ class Motorbike{
         unsigned int yearMade;
         double consumingPoints, minRenterRating, ratingScore;
         bool isAvailable;
-        vector<Rental> rentals;    // store both accepted and requesting rentals
+        // vector<Rental> rentals;    // store both accepted and requesting rentals
 
     public:
         Motorbike();
@@ -39,7 +39,7 @@ class Motorbike{
         static Motorbike createObject(string line);
 
         // request to rent the motorbike, takes in day and month of begin and end dates of renting
-        // void requestToRent(Member renter, int bday, int bmonth, int eday, int emonth);
+        void requestToRent(Member* renter);
 
         void viewRequests();
 
@@ -54,6 +54,7 @@ class Motorbike{
         void unlistMotorbike();
 
         friend class Member;
+        friend class Rental;
         friend class AdminInterface;
         friend class UserInterface;
 };
