@@ -76,7 +76,7 @@ void Motorbike::requestToRent(Member* renter){
     cout << "Beginning month: "; cin >> bmonth;
     cout << "End day: "; cin >> eday;
     cout << "End month: "; cin >> emonth;
-    Rental rental("id", this, renter, bday, bmonth, eday, emonth, false);
+    Rental rental("id", this->motorId, ownerId, bday, bmonth, eday, emonth, "requested");
     cout << "Your request has been created!\n";
     rental.showInfo();
 }

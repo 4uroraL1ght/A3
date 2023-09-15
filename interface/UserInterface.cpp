@@ -7,12 +7,21 @@
 
 #define MOTOR_FILE "data/Motorbike.txt"
 #define MEMBER_FILE "data/Member.txt"
+#define RENTAL_FILE "data/Rental.txt"
 
 using namespace std;
 
 UserInterface::UserInterface(){
     this->motorbikes = FileController::loadObjects(MOTOR_FILE, Motorbike::createObject);
     this->members = FileController::loadObjects(MEMBER_FILE, Member::createObject);
+    this->rentals = FileController::loadObjects(RENTAL_FILE, Rental::createObject);
+    loadRentalComponents();
+}
+
+void UserInterface::loadRentalComponents(){
+    for (Rental& r : rentals){
+        r.loadComponents(motorbikes, members);
+    }
 }
 
 // safe all data (vectors of objects) back into files
@@ -180,6 +189,7 @@ void UserInterface::searchSuitableMotorbikes(Member* member){
 
 // main function for running UserInterface
 void UserInterface::runInterface(){
+    members[1].showInfo();
     int userType = 1;
     bool isLoggedIn = false;
     Member* loggedInMem = nullptr;

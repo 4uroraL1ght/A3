@@ -5,8 +5,13 @@
 #include <vector>
 #include <fstream>
 #include "../components/Motorbike.h"
+#include "Rental.h"
 
 using namespace std;
+
+class Rental;       // forward declaration
+class Motorbike;
+class Member;
 
 class FileController{
     private:
@@ -28,7 +33,7 @@ class FileController{
             else {
                 while (getline(file, line)){
                     T temp = createObject(line);
-                    objects.push_back(move(temp));
+                    objects.push_back(move(temp));  // move object to new location
                 }
             }
             file.close();

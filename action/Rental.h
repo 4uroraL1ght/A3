@@ -7,6 +7,7 @@
 #include <ctime>
 #include "../components/Motorbike.h"
 #include "../user/Member.h"
+#include "FileController.h"
 
 using namespace std;
 
@@ -15,15 +16,22 @@ class Motorbike;
 
 class Rental {
     private:
-        string rentalId;
-        Motorbike* motorbike;
-        Member* renter;
-        tm beginDate, endDate;      // data type for storing date info
-        bool isAccepted;
+        string rentalId, motorId, renterId;
+        Motorbike* motorbike = nullptr;
+        Member* renter = nullptr;
+        tm beginDate, endDate;          // data type for storing date info
+        string status;                  // status of the rental
+        double totalConsumingPoints;    // total price (points)
+        int duration;                   // counted by days
 
     public:
-        Rental(string rentalId = "", Motorbike* motorbike = nullptr, Member* renter = nullptr, 
-        int bday = 1, int bmonth = 10, int eday = 5, int emonth = 10, bool isAccepted = false);
+        Rental(string rentalId = "", string motorId = "", string renterId = "", int bday = 1, int bmonth = 10, int eday = 5, int emonth = 10, string status = "requested");
+
+        static Rental createObject(string line);
+
+        bool loadComponents(vector<Motorbike>& motorbikes, vector<Member>& members);
+
+        string toString();
 
         void showInfo();
 
