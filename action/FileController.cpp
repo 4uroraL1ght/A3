@@ -5,7 +5,8 @@
 #include <vector>
 #include <fstream>
 #include "FileController.h"
-#include "../components/Motorbike.h"
-// #include "user/Member.h"
+// #include "../components/Motorbike.h"
+// #include "../user/Member.h"
+// #include "Rental.h"
 
 using namespace std;
