@@ -15,7 +15,7 @@ minRenterRating(minRenterRating), ratingScore(ratingScore){}
 Motorbike::~Motorbike(){}
 
 // format for saving into txt file
-string Motorbike::toString(){
+string Motorbike::formatForSaving(){
     return (motorId + ',' + ownerId + ',' + model + ',' + color + ',' + engineSize + ',' + transmissionMode + ',' + description +
     ',' + to_string(yearMade) + ',' + to_string(consumingPoints) + ',' + city + ',' + to_string(isAvailable) + ','   // 1 is true, 0 false
     + to_string(minRenterRating) + ',' + to_string(ratingScore) + "\n");
@@ -68,7 +68,7 @@ Motorbike Motorbike::createObject(string line){
 }
 
 // make a request for renting the motorbike
-void Motorbike::requestToRent(Member* renter){
+Rental* Motorbike::requestToRent(Member* renter){
     cout << "----- Create renting request (Year 2023) -----\n";
     cout << "(Please enter the following rental information)\n";
     int bday, bmonth, eday, emonth;
@@ -76,9 +76,12 @@ void Motorbike::requestToRent(Member* renter){
     cout << "Beginning month: "; cin >> bmonth;
     cout << "End day: "; cin >> eday;
     cout << "End month: "; cin >> emonth;
-    Rental rental("id", this->motorId, ownerId, bday, bmonth, eday, emonth, "requested");
+    Rental *rental = new Rental("RE001", motorId, ownerId, bday, bmonth, eday, emonth, "requested");
+    rental->motorbike = this;
+    rental->renter = renter;
     cout << "Your request has been created!\n";
-    rental.showInfo();
+    rental->showInfo();
+    return rental;
 }
 
 // display the current settings of listed values

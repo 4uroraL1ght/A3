@@ -49,7 +49,7 @@ class FileController{
             }
             else {
                 for (T object : objects) {
-                    file << object.toString();
+                    file << object.formatForSaving();
                 }
             }
             file.close();

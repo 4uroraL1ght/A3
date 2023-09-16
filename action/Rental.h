@@ -31,13 +31,14 @@ class Rental {
 
         bool loadComponents(vector<Motorbike>& motorbikes, vector<Member>& members);
 
-        string toString();
+        string formatForSaving();
 
         void showInfo();
 
         // give access for other classes
         friend class Motorbike;
         friend class Member;
+        friend class UserInterface;
 };
 
 #endif
