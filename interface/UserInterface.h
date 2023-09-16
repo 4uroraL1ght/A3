@@ -33,7 +33,7 @@ class UserInterface{
 
         void searchSuitableMotorbikes(Member* mem);
 
-        void displayMotorbikes(vector<Motorbike> suitableMtb, Member* renter);
+        void displayMotorbikes(vector<Motorbike>& suitableMtb, Member* renter);
 
         void runInterface();
 };

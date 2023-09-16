@@ -27,6 +27,8 @@ void UserInterface::loadRentalComponents(){
 // safe all data (vectors of objects) back into files
 void UserInterface::saveToFiles(){
     FileController::writeObjects(MOTOR_FILE, motorbikes);
+    // FileController::writeObjects(MEMBER_FILE, members);
+    FileController::writeObjects(RENTAL_FILE, rentals);
 }
 
 // find and return the right member from members vector
@@ -134,11 +136,12 @@ void UserInterface::addNewMotorbike(Member* member){
 }
 
 // function to display motorbike vector after searching
-void UserInterface::displayMotorbikes(vector<Motorbike> suitableMtb, Member* renter){
+void UserInterface::displayMotorbikes(vector<Motorbike>& suitableMtb, Member* renter){
     for (int i = 0; i < suitableMtb.size(); i++){
         cout << i+1 << ". ";
         suitableMtb[i].showInfo();
     }
+    
     int userType = 0;
     cout << "Please choose your next move:\n";
     cout << "0. Exit\n1. View detail motorbike\n";
@@ -158,7 +161,9 @@ void UserInterface::displayMotorbikes(vector<Motorbike> suitableMtb, Member* ren
             if (userType == 0) return;
             else if (userType == 1){
                 // call function to create new rental
-                suitableMtb[userType+1].requestToRent(renter);
+                Rental *newRental = suitableMtb[userType-1].requestToRent(renter);
+                rentals.push_back(*newRental);
+                rentals.back().showInfo();      // add new rental to the vector<Rental>
             } else {
                 cout << "Invalid choice!\n";
                 return;
@@ -189,7 +194,6 @@ void UserInterface::searchSuitableMotorbikes(Member* member){
 
 // main function for running UserInterface
 void UserInterface::runInterface(){
-    members[1].showInfo();
     int userType = 1;
     bool isLoggedIn = false;
     Member* loggedInMem = nullptr;
@@ -253,14 +257,5 @@ void UserInterface::runInterface(){
             break;
         }
     }
-    
-
-    /* testing */
-    // find and assign the motorbike of the member
-    // members[0].motorbike = findMyMotorbike(members[0].userId);
-    
-    // // if the user has added their motorbike
-    // if (members[0].motorbike != nullptr){
-    //     members[0].motorbike->showInfo();
-    // }
+    saveToFiles();  // saving all data to files
 }

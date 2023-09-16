@@ -33,11 +33,10 @@ Rental Rental::createObject(string line){
 }
 
 // function to format the rental for saving into txt file
-string Rental::toString(){
-    return rentalId + ',' + motorbike->motorId + ',' + renter->userId + ',' + 
-    to_string(beginDate.tm_mday) + '/' + to_string(beginDate.tm_mon) + "/2023," +
-    to_string(endDate.tm_mday) + '/' + to_string(endDate.tm_mon) + "/2023," +
-    ',' + status + '\n';
+string Rental::formatForSaving(){
+    return rentalId + ',' + motorId + ',' + renter->userId + ',' + 
+    to_string(beginDate.tm_mday) + ',' + to_string(beginDate.tm_mon) + "," +
+    to_string(endDate.tm_mday) + ',' + to_string(endDate.tm_mon) + ',' + status + '\n';
 }
 
 // function to find and assign the appropriate objects Motorbike and Member (renter) for the rental
@@ -63,7 +62,7 @@ bool Rental::loadComponents(vector<Motorbike>& motorbikes, vector<Member>& membe
 void Rental::showInfo(){
     cout << "\n------ Rental Information ------\n";
     cout << "Rental ID: " << rentalId << endl;
-    cout << "Owner ID: " << motorbike->ownerId << endl;
+    cout << "Owner ID: " << motorbike->ownerId << "\tMotorbike ID: " << motorId << endl;
     cout << "Renter: " << renter->fullName << "\tID: " << renter->userId << endl;
     cout << "Begin Date: " << beginDate.tm_mday << '/' << beginDate.tm_mon << "/2023" << endl;
     cout << "End Date: " << endDate.tm_mday << '/' << endDate.tm_mon << "/2023" << endl;

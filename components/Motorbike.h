@@ -30,7 +30,7 @@ class Motorbike{
 
         ~Motorbike();
 
-        string toString();
+        string formatForSaving();
 
         void showInfo();
 
@@ -39,7 +39,7 @@ class Motorbike{
         static Motorbike createObject(string line);
 
         // request to rent the motorbike, takes in day and month of begin and end dates of renting
-        void requestToRent(Member* renter);
+        Rental* requestToRent(Member* renter);
 
         void viewRequests();
 
