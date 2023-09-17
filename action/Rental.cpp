@@ -59,7 +59,7 @@ bool Rental::loadComponents(vector<Motorbike>& motorbikes, vector<Member>& membe
 }
 
 // show information of rental
-void Rental::showInfo(){
+void Rental::showInfoDetail(){
     cout << "\n------ Rental Information ------\n";
     cout << "Rental ID: " << rentalId << endl;
     cout << "Owner ID: " << motorbike->ownerId << "\tMotorbike ID: " << motorId << endl;
@@ -69,4 +69,12 @@ void Rental::showInfo(){
     cout << "Total of consuming points: " << totalConsumingPoints << endl;    // haven't handled
     cout << "Current Status: " << status << endl;
     cout << "-------------------------------\n";
+}
+
+// show info in 1 line for admin
+void Rental::showInfo(){
+    cout << "ID: " << rentalId << ";  Onwer ID: " << motorbike->ownerId << ";  Motorbike ID: " << motorId
+    << ";  Renter ID: " << renterId << ";  Renting Date: " << endDate.tm_mday << '/' << endDate.tm_mon << 
+    "/2023 to " << endDate.tm_mday << '/' << endDate.tm_mon << "/2023;  Total Points: " << totalConsumingPoints
+    << ";  Status: " << status << '\n';
 }

@@ -33,6 +33,8 @@ class Rental {
 
         string formatForSaving();
 
+        void showInfoDetail();
+
         void showInfo();
 
         // give access for other classes
