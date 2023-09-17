@@ -1,8 +1,5 @@
-# A3
 # EEET2482/COSC2082 - GROUP ASSIGNMENT
 # MOTORBIKE RENTAL APPLICATION
-# Instructor: Dr. Ling Huo Chong
-# Group: Group 20
 
 
 To run the program:
