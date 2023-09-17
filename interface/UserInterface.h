@@ -35,6 +35,10 @@ class UserInterface{
 
         void displayMotorbikes(vector<Motorbike>& suitableMtb, Member* renter);
 
+        int displayRequestOptions();
+
+        void displayRequests(Member* owner);
+
         void runInterface();
 };
 
