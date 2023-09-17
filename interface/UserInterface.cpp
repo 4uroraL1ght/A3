@@ -300,7 +300,10 @@ void UserInterface::runInterface(){
             loggedInMem->motorbike->unlistMotorbike();
             break;
         case 6:     // view requests
-            displayRequests(loggedInMem);
+            if (loggedInMem->motorbike->isAvailable){   // if the motorbike is listed
+                displayRequests(loggedInMem);
+            } else
+            cout << "You have unlisted your motorbike.\n";
             break;
         case 7:     // view history
             break;
