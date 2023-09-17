@@ -160,6 +160,11 @@ void UserInterface::displayMotorbikes(vector<Motorbike>& suitableMtb, Member* re
             cin >> userType;
             if (userType == 0) return;
             else if (userType == 1){
+                if (renter->isRenting) {    // if the renter has already rented a motorbike
+                    cout << "You have rented a motorbike and cannot rent more!\n";
+                    cout << "Bringing you back...\n";
+                    return;
+                }
                 // call function to create new rental
                 Rental *newRental = suitableMtb[userType-1].requestToRent(renter);
                 rentals.push_back(*newRental);
@@ -190,6 +195,52 @@ void UserInterface::searchSuitableMotorbikes(Member* member){
         cout << "There's no suitable motorbike available!\n";
     } else     // display the motorbikes found
     displayMotorbikes(suitableMotorbikes, member);
+}
+
+// display request's options and take the user's choice
+int UserInterface::displayRequestOptions(){
+    int userChoice;
+    cout << "Please choose your next move:\n";
+    cout << "0. Exit\n1. Accept a request\n";
+    cout << "Enter your choice: ";
+    cin >> userChoice;
+    switch (userChoice){
+    case 0:
+        return userChoice;
+    case 1:
+        cout << "Please choose the request number that you want to accept: ";
+        cin >> userChoice;
+        return userChoice;  // return the request number to accept
+        break;
+    default:
+        cout << "Invalid choice!\n";
+        return 0;
+        break;
+    }
+}
+
+// find and display all requests of member's motorbike
+void UserInterface::displayRequests(Member* owner){
+    cout << "----- Requests of Motorbike " << owner->motorbike->motorId << " -----\n";
+    int count = 0;
+    for (Rental& rt : rentals){
+        if (rt.motorId == owner->motorbike->motorId && rt.status == "requested"){
+            cout << count+1 << ". ";
+            rt.showInfoDetail();
+            count++;
+        }
+    }
+    if (count == 0){    // if the counter unchanged -> no requests
+        cout << "There are no requests for your motorbike!\n";
+        return;
+    }
+    int requestAccept = displayRequestOptions();
+    if (requestAccept == 0) return;
+    else if (requestAccept > count){
+        cout << "Invalid choice!\n";
+        return;
+    } else      // if the choice is valid -> accept the request
+        rentals[requestAccept-1].acceptRequest();
 }
 
 // main function for running UserInterface
@@ -249,6 +300,7 @@ void UserInterface::runInterface(){
             loggedInMem->motorbike->unlistMotorbike();
             break;
         case 6:     // view requests
+            displayRequests(loggedInMem);
             break;
         case 7:     // view history
             break;

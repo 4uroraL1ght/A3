@@ -14,12 +14,15 @@ class Member {
         string userId, username, password, fullName, phoneNumber, idType, passportNum, driverLicenseNum, expiryDate, city;
         double creditPoints, renterRating;
         Motorbike* motorbike;
+        bool isRenting;     // to check if the member is currently renting a motorbike or not
 
     public:
         Member(string userId="", string username="", string password="", string fullName="", string phoneNumber="", string idType="", string passportNum="",
-        string driverLicenseNum="", string expiryDate="", string city="Sai Gon", double creditPoints=20, double renterRating=0);
+        string driverLicenseNum="", string expiryDate="", string city="Sai Gon", double creditPoints=20, double renterRating=0, bool isRenting = false);
 
         static Member createObject(string line);
+
+        string formatForSaving();
 
         void showInfo();
 

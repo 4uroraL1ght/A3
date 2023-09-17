@@ -63,7 +63,8 @@ void Rental::showInfoDetail(){
     cout << "\n------ Rental Information ------\n";
     cout << "Rental ID: " << rentalId << endl;
     cout << "Owner ID: " << motorbike->ownerId << "\tMotorbike ID: " << motorId << endl;
-    cout << "Renter: " << renter->fullName << "\tID: " << renter->userId << endl;
+    cout << "Renter: " << renter->fullName << "\tID: " << renter->userId;
+    cout << "Renter's rating score: " << renter->renterRating << endl;
     cout << "Begin Date: " << beginDate.tm_mday << '/' << beginDate.tm_mon << "/2023" << endl;
     cout << "End Date: " << endDate.tm_mday << '/' << endDate.tm_mon << "/2023" << endl;
     cout << "Total of consuming points: " << totalConsumingPoints << endl;    // haven't handled
@@ -77,4 +78,14 @@ void Rental::showInfo(){
     << ";  Renter ID: " << renterId << ";  Renting Date: " << endDate.tm_mday << '/' << endDate.tm_mon << 
     "/2023 to " << endDate.tm_mday << '/' << endDate.tm_mon << "/2023;  Total Points: " << totalConsumingPoints
     << ";  Status: " << status << '\n';
+}
+
+void Rental::acceptRequest(){
+    this->status = "accepted";
+    this->renter->creditPoints -= totalConsumingPoints;     // subtract credit points from the renter
+    renter->isRenting = true;     // update that the member is renting a motorbike
+}
+
+void Rental::rejectRequest(){
+    this->status = "rejected";
 }

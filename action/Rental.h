@@ -37,6 +37,12 @@ class Rental {
 
         void showInfo();
 
+        bool isOverlapped();    // check if the request's date is overlapped with the listed date
+
+        void acceptRequest();
+
+        void rejectRequest();
+
         // give access for other classes
         friend class Motorbike;
         friend class Member;

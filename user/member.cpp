@@ -9,15 +9,16 @@
 using namespace std;
 
 Member::Member(string userId, string username, string password, string fullName, string phoneNumber, string idType, string passportNum,
-        string driverLicenseNum, string expiryDate, string city, double creditPoints, double renterRating)
+        string driverLicenseNum, string expiryDate, string city, double creditPoints, double renterRating, bool isRenting)
         : userId(userId), username(username), password(password), fullName(fullName), phoneNumber(phoneNumber), idType(idType), passportNum(passportNum),
-        driverLicenseNum(driverLicenseNum), expiryDate(expiryDate), city(city), creditPoints(creditPoints), renterRating(renterRating){}
+        driverLicenseNum(driverLicenseNum), expiryDate(expiryDate), city(city), creditPoints(creditPoints), renterRating(renterRating), isRenting(isRenting){}
 
 // take in a line of data and return Member object
 Member Member::createObject(string line){
     stringstream ss(line);
     string temp, id, username, pw, fullName, phone, idType, ppNum, licenseNum, expiryDate, city;
     double credit, rating;
+    bool isRenting;
     getline(ss, id, ',');
     getline(ss, username, ',');
     getline(ss, pw, ',');
@@ -32,7 +33,16 @@ Member Member::createObject(string line){
     credit = stod(temp);
     getline(ss, temp, ',');
     rating = stod(temp);
-    return Member(id, username, pw, fullName, phone, idType, ppNum, licenseNum, expiryDate, city, credit, rating);
+    getline(ss, temp, ',');
+    isRenting = stoi(temp);
+    return Member(id, username, pw, fullName, phone, idType, ppNum, licenseNum, expiryDate, city, credit, rating, isRenting);
+}
+
+// return string line format to save into txt file
+string Member::formatForSaving(){
+    return userId + ',' + username + ',' + password + ',' + fullName + ',' + phoneNumber + ',' + 
+    idType + passportNum + ',' + driverLicenseNum + ',' + expiryDate + ',' + city + ',' + 
+    to_string(creditPoints) + ',' + to_string(renterRating) + ',' + to_string(isRenting) + '\n';
 }
 
 // show info in 1 line (used by admin to easily view list of all members)
@@ -51,30 +61,3 @@ void Member::findMyMotorbike(vector<Motorbike>& motorbikes){
     }
     this->motorbike = nullptr;
 }
-
-/* Previous code */
-// bool logging_member(){
-//     string username, password, usercheck, passcheck;
-
-//     cout << "Enter your Username: "; cin >> username;
-//     cout << "Enter your Password: "; cin >> password;
-
-//     ifstream admindata("../data/Member.txt");
-//     getline(admindata, usercheck);
-//     getline(admindata, passcheck);
-
-//     if(usercheck == username && passcheck == password){
-//         return true;
-//     }else{
-//         return false;
-//     }
-// }
-
-// int main(){
-//     bool login = logging_member();
-//     if(!login){
-//         cout << "Login failed please try again " << endl;
-//     }else{
-//         cout << "Login successful! " << endl;
-//     }
-// }
