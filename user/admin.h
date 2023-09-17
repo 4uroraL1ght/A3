@@ -5,20 +5,16 @@
 #include <string>
 using namespace std;
 
-bool logging(){
-     string adminID, password, admincheck, passcheck;
+class Admin{
+    private:
+        string adminID, password, admincheck, passcheck;
+    public:
+        // default constructor for Admin object
+        Admin();
 
-     cout << "Enter your Admin ID: "; cin >> adminID;
-     cout << "Enter your Password: "; cin >> password;
+        // logging function for admin
+        bool logging();
 
-     ifstream admindata("../data/Admin.txt");
-     getline(admindata, admincheck);
-     getline(admindata, passcheck);
+};
 
-     if(admincheck == adminID && passcheck == password){
-         return true;
-     }else{
-         return false;
-     }
-}
 #endif
