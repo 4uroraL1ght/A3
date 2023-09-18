@@ -248,7 +248,6 @@ void UserInterface::displayRequests(Member* owner){
 
 // main function for running UserInterface
 void UserInterface::runInterface(){
-    Member member;
     int userType = 1;
     bool isLoggedIn = false;
     Member* loggedInMem = nullptr;
@@ -286,7 +285,6 @@ void UserInterface::runInterface(){
             cout << "Logging you out...\n";
             break;
         case 1:     // view personal info
-            member.showMyInfo();    
             break;
         case 2:     // view motorbike info
             if (hasMotorbike){
