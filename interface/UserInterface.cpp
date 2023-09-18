@@ -24,10 +24,10 @@ void UserInterface::loadRentalComponents(){
     }
 }
 
-// safe all data (vectors of objects) back into files
+// save all data (vectors of objects) back into files
 void UserInterface::saveToFiles(){
     FileController::writeObjects(MOTOR_FILE, motorbikes);
-    // FileController::writeObjects(MEMBER_FILE, members);
+    FileController::writeObjects(MEMBER_FILE, members);
     FileController::writeObjects(RENTAL_FILE, rentals);
 }
 
@@ -65,7 +65,10 @@ int UserInterface::displayMemberMenu() {
     cout << "7. View history\n";
     cout << "Enter your choice: ";
     cin >> choice;
-    return choice;
+    if (choice >= 0 && choice <= 7){
+        return choice;
+    }
+    return -1;
 }
 
 // function to find a member using member's id
@@ -245,6 +248,7 @@ void UserInterface::displayRequests(Member* owner){
 
 // main function for running UserInterface
 void UserInterface::runInterface(){
+    Member member;
     int userType = 1;
     bool isLoggedIn = false;
     Member* loggedInMem = nullptr;
@@ -282,6 +286,7 @@ void UserInterface::runInterface(){
             cout << "Logging you out...\n";
             break;
         case 1:     // view personal info
+            member.showMyInfo();    
             break;
         case 2:     // view motorbike info
             if (hasMotorbike){
