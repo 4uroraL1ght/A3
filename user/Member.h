@@ -1,5 +1,6 @@
 #ifndef MEMBER_H
 #define MEMBER_H
+
 #include <iostream>
 #include <string>
 #include "../components/Motorbike.h"
@@ -22,8 +23,6 @@ class Member {
         static Member createObject(string line);
 
         string formatForSaving();
-
-        void showMyInfo();
 
         void showInfo();
 

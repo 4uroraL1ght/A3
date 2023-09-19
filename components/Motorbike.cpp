@@ -23,7 +23,7 @@ string Motorbike::formatForSaving(){
 
 // show info in short - used for listing many motorbikes
 void Motorbike::showInfo(){
-    cout << "Motor ID: " << motorId << ";\tOwner ID: " << ownerId << ";\tModel: " << model << ";\tColor: " << color << ";\tEngine Size: " << 
+    cout << motorId << ";\tOwner ID: " << ownerId << ";\tModel: " << model << ";\tColor: " << color << ";\tEngine Size: " << 
     engineSize << ";\tYear Made: " << yearMade << ";\tAvailable: " << (isAvailable ? "Yes":"No") << endl; 
 }
 
@@ -35,7 +35,7 @@ void Motorbike::showInfoDetail(){
     cout << "Transmission Mode: " << transmissionMode << "\tYear Made: " << yearMade << endl;
     cout << "Description: " << description << endl;
     cout << "Consuming Point: " << consumingPoints << endl;
-    cout << "Rating Score: " << ratingScore << "\tAvailable: " << (isAvailable ? "Yes":"No");
+    cout << "Rating Score: " << ratingScore << "\tAvailabe: " << (isAvailable ? "Yes":"No");
     cout << "\n-----------------------------------\n";
     cout << endl;
 }
@@ -94,7 +94,7 @@ bool Motorbike::changeCurrentSettings(){
     cout << "Do you want to modify the settings? ( 0.No  1.Yes )\n";
     cout << "Enter your choice: ";
     cin >> choice;
-    if (choice != 0 || choice != 1){
+    if (choice > 1){
         cout << "Invalid choice. No changes are made.\n";
         return 0;
     } else return choice;

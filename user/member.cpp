@@ -38,7 +38,6 @@ Member Member::createObject(string line){
     return Member(id, username, pw, fullName, phone, idType, ppNum, licenseNum, expiryDate, city, credit, rating, isRenting);
 }
 
-
 // return string line format to save into txt file
 string Member::formatForSaving(){
     return userId + ',' + username + ',' + password + ',' + fullName + ',' + phoneNumber + ',' + 
@@ -48,7 +47,7 @@ string Member::formatForSaving(){
 
 // show info in 1 line (used by admin to easily view list of all members)
 void Member::showInfo(){
-    cout << "User ID: " << userId << "; " << "Full name: " << fullName << "; Phone: " << phoneNumber << "; ID Type: " << idType
+    cout << userId << "; " << fullName << "; Phone: " << phoneNumber << "; ID Type: " << idType
     << "; ID Number: " << passportNum << ";  Driver's License Number: " << driverLicenseNum << 
     "; Expiry: " << expiryDate << "; " << city << "; Credit Points: " << creditPoints << "; Rating Score: " << renterRating << endl;
 }
