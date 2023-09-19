@@ -24,9 +24,9 @@ void AdminInterface::loadRentalComponents(){
     }
 }
 
-// safe all data (vectors of objects) back into files
+// save all data (vectors of objects) back into files
 void AdminInterface::saveToFiles(){
-    // FileController::writeObjects(MOTOR_FILE, motorbikes);
+    FileController::writeObjects(MOTOR_FILE, motorbikes);
 }
 
 // Function to display admin menu after successful login
@@ -36,7 +36,7 @@ int AdminInterface::displayAdminMenu() {
     cout << "0. Exit\n";
     cout << "1. View member information\n";
     cout << "2. View motorbike information\n";
-    cout << "3. View rental information\n";
+    cout << "3. View rental information?\n";
     cout << "Enter your choice: ";
     cin >> choice;
     return choice;
