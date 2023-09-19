@@ -112,7 +112,7 @@ void GuestInterface::registerMember(){
         motorbikeFile << motorId << "," << userId << "," << model << "," << color << "," << engineSize << ",";
         motorbikeFile << transmissionMode << "," << description << "," << yearMade << ",";
         motorbikeFile << consumingPoints << "," << city << "," << isAvailable << ",";
-        motorbikeFile << minRenterRating << ',' << ratingScore << endl;
+        motorbikeFile << minRenterRating << ratingScore << endl;
         motorbikeFile.close();
     }
 
