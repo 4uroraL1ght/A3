@@ -24,10 +24,10 @@ void AdminInterface::loadRentalComponents(){
     }
 }
 
-// save all data (vectors of objects) back into files
-// void AdminInterface::saveToFiles(){
-//     FileController::writeObjects(MOTOR_FILE, motorbikes);
-// }
+// safe all data (vectors of objects) back into files
+void AdminInterface::saveToFiles(){
+    // FileController::writeObjects(MOTOR_FILE, motorbikes);
+}
 
 // Function to display admin menu after successful login
 int AdminInterface::displayAdminMenu() {
