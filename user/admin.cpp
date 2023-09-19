@@ -23,7 +23,7 @@ bool Admin::logging(){
         cout << "Login successful! " << endl;
         return true;
     } else {
-        cout << "Login failed please try again " << endl;
+        cout << "Login failed. Please try again." << endl;
         return false;
     }
 }
