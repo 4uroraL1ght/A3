@@ -50,9 +50,9 @@ void GuestInterface::registerMember(){
         
         cout << "Enter username: "; cin >> username;
         cout << "Enter password: "; cin >> password;
-        cout << "Enter your full name: "; getline(cin, fullName); cin.ignore();
+        cout << "Enter your full name: "; cin.ignore(); getline(cin, fullName);
         cout << "Enter your phone number: "; cin >> phoneNumber;
-        cout << "Enter your ID type (Citizen ID/Passport): "; getline(cin, idType); cin.ignore();
+        cout << "Enter your ID type (Citizen ID/Passport): "; cin.ignore(); getline(cin, idType);
         cout << "Enter your ID/passport number: "; cin >> passportNum;
         cout << "Enter your driver's license number: "; cin >> driverLicenseNum;
         cout << "Enter your license expiry date (dd-mm-yyyy format): "; cin >> expiryDate;
@@ -91,14 +91,14 @@ void GuestInterface::registerMember(){
         double ratingScore = 0.0;
 
         if (hasMotorbike == "1") {
-            cout << "Enter motorbike model: "; getline(cin, model); cin.ignore();
-            cout << "Enter motorbike color: "; getline(cin, color); cin.ignore();
-            cout << "Enter motorbike engine size: "; getline(cin, engineSize); cin.ignore();
-            cout << "Enter motorbike transmission mode: "; getline(cin, transmissionMode); cin.ignore();
-            cout << "Enter motorbike description: "; getline(cin, description); cin.ignore();
+            cout << "Enter motorbike model: "; getline(cin >> ws, model);
+            cout << "Enter motorbike color: "; getline(cin >> ws, color);
+            cout << "Enter motorbike engine size: "; getline(cin >> ws, engineSize); 
+            cout << "Enter motorbike transmission mode: "; getline(cin >> ws, transmissionMode); 
+            cout << "Enter motorbike description: "; getline(cin >> ws, description);
             cout << "Enter motorbike year made: "; cin >> yearMade;
             cout << "Enter motorbike consuming points: "; cin >> consumingPoints;
-            cout << "Enter motorbike city: "; getline(cin, city); cin.ignore(); 
+            cout << "Enter motorbike city: "; getline(cin >> ws, city);
             cout << "Is the motorbike available? (1 for yes, 0 for no): "; cin >> isAvailable;
             cout << "Enter the minimum renter rating for the motorbike: "; cin >> minRenterRating;
 
@@ -112,12 +112,12 @@ void GuestInterface::registerMember(){
         motorbikeFile << motorId << "," << userId << "," << model << "," << color << "," << engineSize << ",";
         motorbikeFile << transmissionMode << "," << description << "," << yearMade << ",";
         motorbikeFile << consumingPoints << "," << city << "," << isAvailable << ",";
-        motorbikeFile << minRenterRating << endl;
+        motorbikeFile << minRenterRating << ',' << ratingScore << endl;
         motorbikeFile.close();
     }
 
 
-        cout << "Registration successful!" << endl;
+        cout << "Registration successful!\nPlease login as a Member" << endl;
     }
 
 string GuestInterface::generateUniqueUserId() {
@@ -180,15 +180,13 @@ string GuestInterface::generateUniqueMotorId() {
         return uniqueId;
     }
 
-void GuestInterface::runInterface(){
-        while (true){   
-        int userType = displayGuestMenu();
+bool GuestInterface::runInterface(){
+    int userType = displayGuestMenu();
+    while (userType != 0){   
         switch (userType){
-        case 0:     // log out
-            cout << "Logging you out...\n";
-            break;
         case 1:     // register to be new member
             registerMember();
+            return false;   // return false to keep running the outside menu
             break;
         case 2:     // view all motorbikes
             displayMotorbikes();
@@ -197,6 +195,8 @@ void GuestInterface::runInterface(){
             cout << "Invalid choice!\n";
             break;
         }
+        userType = displayGuestMenu();
     }
-        
+    cout << "Logging you out...\n";
+    return true;
 }

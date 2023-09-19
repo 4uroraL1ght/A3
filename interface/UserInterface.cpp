@@ -65,10 +65,7 @@ int UserInterface::displayMemberMenu() {
     cout << "7. View history\n";
     cout << "Enter your choice: ";
     cin >> choice;
-    if (choice >= 0 && choice <= 7){
-        return choice;
-    }
-    return -1;
+    return choice;
 }
 
 // function to find a member using member's id

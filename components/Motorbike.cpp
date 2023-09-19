@@ -94,7 +94,7 @@ bool Motorbike::changeCurrentSettings(){
     cout << "Do you want to modify the settings? ( 0.No  1.Yes )\n";
     cout << "Enter your choice: ";
     cin >> choice;
-    if (choice != 0 || choice != 1){
+    if (choice > 1){
         cout << "Invalid choice. No changes are made.\n";
         return 0;
     } else return choice;

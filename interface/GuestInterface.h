@@ -24,7 +24,7 @@ class GuestInterface{
 
         string generateUniqueMotorId();
 
-        void runInterface();
+        bool runInterface();
         
 };
 
