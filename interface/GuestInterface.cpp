@@ -50,9 +50,9 @@ void GuestInterface::registerMember(){
         
         cout << "Enter username: "; cin >> username;
         cout << "Enter password: "; cin >> password;
-        cout << "Enter your full name: "; cin.ignore(); getline(cin, fullName);
+        cout << "Enter your full name: "; getline(cin, fullName); cin.ignore();
         cout << "Enter your phone number: "; cin >> phoneNumber;
-        cout << "Enter your ID type (Citizen ID/Passport): "; cin.ignore(); getline(cin, idType);
+        cout << "Enter your ID type (Citizen ID/Passport): "; getline(cin, idType); cin.ignore();
         cout << "Enter your ID/passport number: "; cin >> passportNum;
         cout << "Enter your driver's license number: "; cin >> driverLicenseNum;
         cout << "Enter your license expiry date (dd-mm-yyyy format): "; cin >> expiryDate;
@@ -91,14 +91,14 @@ void GuestInterface::registerMember(){
         double ratingScore = 0.0;
 
         if (hasMotorbike == "1") {
-            cout << "Enter motorbike model: "; cin >> model;
-            cout << "Enter motorbike color: "; cin >> color;
-            cout << "Enter motorbike engine size: "; cin >> engineSize;
-            cout << "Enter motorbike transmission mode: "; cin >> transmissionMode;
-            cout << "Enter motorbike description: "; cin >> description;
+            cout << "Enter motorbike model: "; getline(cin, model); cin.ignore();
+            cout << "Enter motorbike color: "; getline(cin, color); cin.ignore();
+            cout << "Enter motorbike engine size: "; getline(cin, engineSize); cin.ignore();
+            cout << "Enter motorbike transmission mode: "; getline(cin, transmissionMode); cin.ignore();
+            cout << "Enter motorbike description: "; getline(cin, description); cin.ignore();
             cout << "Enter motorbike year made: "; cin >> yearMade;
             cout << "Enter motorbike consuming points: "; cin >> consumingPoints;
-            cout << "Enter motorbike city: "; cin >> city; 
+            cout << "Enter motorbike city: "; getline(cin, city); cin.ignore(); 
             cout << "Is the motorbike available? (1 for yes, 0 for no): "; cin >> isAvailable;
             cout << "Enter the minimum renter rating for the motorbike: "; cin >> minRenterRating;
 
