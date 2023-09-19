@@ -100,7 +100,7 @@ int UserInterface::displayMemMenuNoMotorbike() {
 }
 
 void UserInterface::addNewMotorbike(Member* member){
-    cout << "You haven't add a motorbike yet.\n";
+    cout << "You haven't added a motorbike yet.\n";
     cout << "Do you want to add one? (0.No  1.Yes)\n";
     int createMotorbike;
     cout << "Enter your choice: ";

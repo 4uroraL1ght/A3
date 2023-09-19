@@ -36,7 +36,7 @@ int AdminInterface::displayAdminMenu() {
     cout << "0. Exit\n";
     cout << "1. View member information\n";
     cout << "2. View motorbike information\n";
-    cout << "3. View rental information\n";
+    cout << "3. View rental information?\n";
     cout << "Enter your choice: ";
     cin >> choice;
     return choice;

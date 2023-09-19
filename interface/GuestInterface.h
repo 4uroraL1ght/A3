@@ -10,13 +10,19 @@ class GuestInterface{
     public:
         vector<Motorbike> motorbikes;
 
-        void loadRentalComponents();
+        GuestInterface();
+        
+        void saveToFiles();
 
         int displayGuestMenu();
 
         void displayMotorbikes();
 
         void registerMember();
+
+        string generateUniqueUserId();
+
+        string generateUniqueMotorId();
 
         void runInterface();
         

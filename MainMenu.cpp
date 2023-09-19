@@ -5,6 +5,7 @@
 #include "action/FileController.h"
 #include "interface/AdminInterface.h"
 #include "interface/UserInterface.h"
+#include "interface/GuestInterface.h"
 using namespace std;
 
 // Function to display the welcome screen
@@ -28,8 +29,7 @@ int displayMainMenu(int userType) {
     switch (userType) {
         case 1: // Guest
             cout << "0. Exit\n";
-            cout << "1. Register an account\n";
-            cout << "2. View motorbike information\n";
+            cout << "1. Continue\n";
             break;
         case 2: // Member
             cout << "0. Exit\n";
@@ -83,7 +83,8 @@ int main(int argc, char const *argv[])
             break;
         case 1:
             if (userType == 1) {
-                // call register function (not implemented)
+                    GuestInterface guestInterface;
+                    guestInterface.runInterface();
                 
             }
             else if (userType == 2) {
