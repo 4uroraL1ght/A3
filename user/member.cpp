@@ -41,7 +41,7 @@ Member Member::createObject(string line){
 // return string line format to save into txt file
 string Member::formatForSaving(){
     return userId + ',' + username + ',' + password + ',' + fullName + ',' + phoneNumber + ',' + 
-    idType + passportNum + ',' + driverLicenseNum + ',' + expiryDate + ',' + city + ',' + 
+    idType + ',' + passportNum + ',' + driverLicenseNum + ',' + expiryDate + ',' + city + ',' + 
     to_string(creditPoints) + ',' + to_string(renterRating) + ',' + to_string(isRenting) + '\n';
 }
 
