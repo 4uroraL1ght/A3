@@ -24,10 +24,10 @@ void UserInterface::loadRentalComponents(){
     }
 }
 
-// safe all data (vectors of objects) back into files
+// save all data (vectors of objects) back into files
 void UserInterface::saveToFiles(){
     FileController::writeObjects(MOTOR_FILE, motorbikes);
-    // FileController::writeObjects(MEMBER_FILE, members);
+    FileController::writeObjects(MEMBER_FILE, members);
     FileController::writeObjects(RENTAL_FILE, rentals);
 }
 
@@ -97,7 +97,7 @@ int UserInterface::displayMemMenuNoMotorbike() {
 }
 
 void UserInterface::addNewMotorbike(Member* member){
-    cout << "You haven't add a motorbike yet.\n";
+    cout << "You haven't added a motorbike yet.\n";
     cout << "Do you want to add one? (0.No  1.Yes)\n";
     int createMotorbike;
     cout << "Enter your choice: ";
@@ -124,6 +124,7 @@ void UserInterface::addNewMotorbike(Member* member){
         cout << "Year made: ";
         cin >> year;
         // create new motorbike
+        motorId = FileController::generateUniqueId(motorbikes.back().motorId, "M", 1);
         motorbikes.push_back(Motorbike(motorId, member->userId, model, color, engine, transmission, 
         description, year, 1, member->city, false, 0, 0));   // add new motorbike to the vector
         member->motorbike = &motorbikes.back();    // assign for the member's motorbike
@@ -166,7 +167,7 @@ void UserInterface::displayMotorbikes(vector<Motorbike>& suitableMtb, Member* re
                     return;
                 }
                 // call function to create new rental
-                Rental *newRental = suitableMtb[userType-1].requestToRent(renter);
+                Rental *newRental = suitableMtb[userType-1].requestToRent(renter, rentals.back().rentalId);
                 rentals.push_back(*newRental);
                 rentals.back().showInfo();      // add new rental to the vector<Rental>
             } else {

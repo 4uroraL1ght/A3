@@ -23,7 +23,7 @@ string Motorbike::formatForSaving(){
 
 // show info in short - used for listing many motorbikes
 void Motorbike::showInfo(){
-    cout << motorId << ";\tOwner ID: " << ownerId << ";\tModel: " << model << ";\tColor: " << color << ";\tEngine Size: " << 
+    cout << "Motor ID: " << motorId << ";\tOwner ID: " << ownerId << ";\tModel: " << model << ";\tColor: " << color << ";\tEngine Size: " << 
     engineSize << ";\tYear Made: " << yearMade << ";\tAvailable: " << (isAvailable ? "Yes":"No") << endl; 
 }
 
@@ -35,7 +35,7 @@ void Motorbike::showInfoDetail(){
     cout << "Transmission Mode: " << transmissionMode << "\tYear Made: " << yearMade << endl;
     cout << "Description: " << description << endl;
     cout << "Consuming Point: " << consumingPoints << endl;
-    cout << "Rating Score: " << ratingScore << "\tAvailabe: " << (isAvailable ? "Yes":"No");
+    cout << "Rating Score: " << ratingScore << "\tAvailable: " << (isAvailable ? "Yes":"No");
     cout << "\n-----------------------------------\n";
     cout << endl;
 }
@@ -68,7 +68,7 @@ Motorbike Motorbike::createObject(string line){
 }
 
 // make a request for renting the motorbike
-Rental* Motorbike::requestToRent(Member* renter){
+Rental* Motorbike::requestToRent(Member* renter, string lastRentalId){
     cout << "----- Create renting request (Year 2023) -----\n";
     cout << "(Please enter the following rental information)\n";
     int bday, bmonth, eday, emonth;
@@ -76,7 +76,8 @@ Rental* Motorbike::requestToRent(Member* renter){
     cout << "Beginning month: "; cin >> bmonth;
     cout << "End day: "; cin >> eday;
     cout << "End month: "; cin >> emonth;
-    Rental *rental = new Rental("RE001", motorId, ownerId, bday, bmonth, eday, emonth, "requested");
+    string rentalId = FileController::generateUniqueId(lastRentalId, "RE", 2);
+    Rental *rental = new Rental(rentalId, motorId, ownerId, bday, bmonth, eday, emonth, "requested");
     rental->motorbike = this;
     rental->renter = renter;
     cout << "Your request has been created!\n";
