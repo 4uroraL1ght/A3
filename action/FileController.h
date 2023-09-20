@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <iomanip>
 #include "../components/Motorbike.h"
 #include "Rental.h"
 
@@ -53,6 +54,23 @@ class FileController{
                 }
             }
             file.close();
+        }
+
+        // generate new object's id following the pattern of the class and previous object's id
+        /* lastId - id of the previous object in the vector
+            preifx - the "string" part of the id
+            startIndex - the starting position of the numeric part of id */
+        static string generateUniqueId(string lastId, string prefix, int startIndex) {
+            if (lastId == "") {
+                return prefix + string(3 - 1, '0') + "1";  // Return the first ID if the vector is empty
+            }
+
+            string numericPart = lastId.substr(startIndex);
+            int nextNumericValue = stoi(numericPart);
+            nextNumericValue++;
+            stringstream ss;
+            ss << setw(3) << setfill('0') << nextNumericValue;
+            return prefix + ss.str();
         }
 
 };

@@ -68,7 +68,7 @@ Motorbike Motorbike::createObject(string line){
 }
 
 // make a request for renting the motorbike
-Rental* Motorbike::requestToRent(Member* renter){
+Rental* Motorbike::requestToRent(Member* renter, string lastRentalId){
     cout << "----- Create renting request (Year 2023) -----\n";
     cout << "(Please enter the following rental information)\n";
     int bday, bmonth, eday, emonth;
@@ -76,7 +76,8 @@ Rental* Motorbike::requestToRent(Member* renter){
     cout << "Beginning month: "; cin >> bmonth;
     cout << "End day: "; cin >> eday;
     cout << "End month: "; cin >> emonth;
-    Rental *rental = new Rental("RE001", motorId, ownerId, bday, bmonth, eday, emonth, "requested");
+    string rentalId = FileController::generateUniqueId(lastRentalId, "RE", 2);
+    Rental *rental = new Rental(rentalId, motorId, ownerId, bday, bmonth, eday, emonth, "requested");
     rental->motorbike = this;
     rental->renter = renter;
     cout << "Your request has been created!\n";
