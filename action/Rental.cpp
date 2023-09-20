@@ -64,7 +64,7 @@ void Rental::showInfoDetail(){
     cout << "Rental ID: " << rentalId << endl;
     cout << "Owner ID: " << motorbike->ownerId << "\tMotorbike ID: " << motorId << endl;
     cout << "Renter: " << renter->fullName << "\tID: " << renter->userId;
-    cout << "Renter's rating score: " << renter->renterRating << endl;
+    cout << "\tRenter's rating score: " << renter->renterRating << endl;
     cout << "Begin Date: " << beginDate.tm_mday << '/' << beginDate.tm_mon << "/2023" << endl;
     cout << "End Date: " << endDate.tm_mday << '/' << endDate.tm_mon << "/2023" << endl;
     cout << "Total of consuming points: " << totalConsumingPoints << endl;    // haven't handled

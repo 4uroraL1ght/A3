@@ -39,7 +39,7 @@ class Motorbike{
         static Motorbike createObject(string line);
 
         // request to rent the motorbike, takes in day and month of begin and end dates of renting
-        Rental* requestToRent(Member* renter);
+        Rental* requestToRent(Member* renter, string lastRentalId);
 
         void viewRequests();
 
