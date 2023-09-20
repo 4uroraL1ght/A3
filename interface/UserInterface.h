@@ -6,6 +6,7 @@
 #include "../action/FileController.h"
 #include "../user/Member.h"
 #include "../action/Rental.h"
+#include "../components/MotorbikeReview.h"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ class UserInterface{
         vector<Motorbike> motorbikes;
         vector<Member> members;
         vector<Rental> rentals;
+        vector<MotorbikeReview> motorbikeReviews; 
         
         UserInterface();
 
@@ -38,6 +40,11 @@ class UserInterface{
         int displayRequestOptions();
 
         void displayRequests(Member* owner);
+
+        vector<Rental> findRentalHistory(Member *renter);
+        void viewHistory(Member *renter);
+        int displayReviewAndRatingOptions();
+        void leaveCommentAndRating(vector<Rental> rentalHistory);
 
         void runInterface();
 };

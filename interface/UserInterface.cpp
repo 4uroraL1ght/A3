@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include <string>
 #include <vector>
 #include "../components/Motorbike.h"
@@ -8,38 +9,48 @@
 #define MOTOR_FILE "data/Motorbike.txt"
 #define MEMBER_FILE "data/Member.txt"
 #define RENTAL_FILE "data/Rental.txt"
+#define MOTOR_REV_FILE "data/MotorbikeReview"
 
 using namespace std;
 
-UserInterface::UserInterface(){
+UserInterface::UserInterface()
+{
     this->motorbikes = FileController::loadObjects(MOTOR_FILE, Motorbike::createObject);
     this->members = FileController::loadObjects(MEMBER_FILE, Member::createObject);
     this->rentals = FileController::loadObjects(RENTAL_FILE, Rental::createObject);
+    this->motorbikeReviews = FileController::loadObjects(MOTOR_REV_FILE, MotorbikeReview::createObject);
     loadRentalComponents();
 }
 
-void UserInterface::loadRentalComponents(){
-    for (Rental& r : rentals){
+void UserInterface::loadRentalComponents()
+{
+    for (Rental &r : rentals)
+    {
         r.loadComponents(motorbikes, members);
     }
 }
 
 // save all data (vectors of objects) back into files
-void UserInterface::saveToFiles(){
+void UserInterface::saveToFiles()
+{
     FileController::writeObjects(MOTOR_FILE, motorbikes);
     FileController::writeObjects(MEMBER_FILE, members);
     FileController::writeObjects(RENTAL_FILE, rentals);
+    FileController::writeObjects(MOTOR_REV_FILE, motorbikeReviews);
 }
 
 // find and return the right member from members vector
-Member* UserInterface::loginMember(int *userType, bool *isLoggedIn){
+Member *UserInterface::loginMember(int *userType, bool *isLoggedIn)
+{
     string username, password;
     cout << "Enter your username: ";
     cin >> username;
     cout << "Enter your password: ";
     cin >> password;
-    for (Member& mem : members){
-        if (mem.username == username && mem.password == password){
+    for (Member &mem : members)
+    {
+        if (mem.username == username && mem.password == password)
+        {
             cout << "Successfully logged in!\n";
             *isLoggedIn = true;
             return &mem;
@@ -52,7 +63,8 @@ Member* UserInterface::loginMember(int *userType, bool *isLoggedIn){
 }
 
 // Functions to display member menu after successful login
-int UserInterface::displayMemberMenu() {
+int UserInterface::displayMemberMenu()
+{
     int choice;
     cout << "This is your menu:\n";
     cout << "0. Exit\n";
@@ -69,9 +81,12 @@ int UserInterface::displayMemberMenu() {
 }
 
 // function to find a member using member's id
-Member* UserInterface::findMemberById(string memId){
-    for (Member& mem : members){
-        if (mem.userId == memId){
+Member *UserInterface::findMemberById(string memId)
+{
+    for (Member &mem : members)
+    {
+        if (mem.userId == memId)
+        {
             return &mem;
         }
     }
@@ -80,7 +95,8 @@ Member* UserInterface::findMemberById(string memId){
 }
 
 // display menu for members who have no motorbike
-int UserInterface::displayMemMenuNoMotorbike() {
+int UserInterface::displayMemMenuNoMotorbike()
+{
     int choice;
     cout << "This is your menu:\n";
     cout << "0. Exit\n";
@@ -90,13 +106,15 @@ int UserInterface::displayMemMenuNoMotorbike() {
     cout << "4. View history\n";
     cout << "Enter your choice: ";
     cin >> choice;
-    if (choice >= 0 && choice <= 4){
+    if (choice >= 0 && choice <= 4)
+    {
         return choice;
     }
     return -1;
 }
 
-void UserInterface::addNewMotorbike(Member* member){
+void UserInterface::addNewMotorbike(Member *member)
+{
     cout << "You haven't added a motorbike yet.\n";
     cout << "Do you want to add one? (0.No  1.Yes)\n";
     int createMotorbike;
@@ -104,7 +122,8 @@ void UserInterface::addNewMotorbike(Member* member){
     cin >> createMotorbike;
     string motorId, model, color, engine, transmission, description;
     unsigned int year;
-    switch (createMotorbike){
+    switch (createMotorbike)
+    {
     case 0:
         cout << "Bringing you back...\n";
         break;
@@ -125,9 +144,9 @@ void UserInterface::addNewMotorbike(Member* member){
         cin >> year;
         // create new motorbike
         motorId = FileController::generateUniqueId(motorbikes.back().motorId, "M", 1);
-        motorbikes.push_back(Motorbike(motorId, member->userId, model, color, engine, transmission, 
-        description, year, 1, member->city, false, 0, 0));   // add new motorbike to the vector
-        member->motorbike = &motorbikes.back();    // assign for the member's motorbike
+        motorbikes.push_back(Motorbike(motorId, member->userId, model, color, engine, transmission,
+                                       description, year, 1, member->city, false, 0, 0)); // add new motorbike to the vector
+        member->motorbike = &motorbikes.back();                                           // assign for the member's motorbike
         member->motorbike->showInfoDetail();
         break;
     default:
@@ -137,40 +156,49 @@ void UserInterface::addNewMotorbike(Member* member){
 }
 
 // function to display motorbike vector after searching
-void UserInterface::displayMotorbikes(vector<Motorbike>& suitableMtb, Member* renter){
-    for (int i = 0; i < suitableMtb.size(); i++){
-        cout << i+1 << ". ";
+void UserInterface::displayMotorbikes(vector<Motorbike> &suitableMtb, Member *renter)
+{
+    for (int i = 0; i < suitableMtb.size(); i++)
+    {
+        cout << i + 1 << ". ";
         suitableMtb[i].showInfo();
     }
-    
+
     int userType = 0;
     cout << "Please choose your next move:\n";
     cout << "0. Exit\n1. View detail motorbike\n";
     cout << "Enter your choice: ";
     cin >> userType;
-    switch (userType){
+    switch (userType)
+    {
     case 0:
         break;
     case 1:
         cout << "Enter the number of motorbike to view: ";
         cin >> userType;
-        if (userType > 0 && (userType < suitableMtb.size()+1)){
-            suitableMtb[userType-1].showInfoDetail();
+        if (userType > 0 && (userType < suitableMtb.size() + 1))
+        {
+            suitableMtb[userType - 1].showInfoDetail();
             cout << "Rent this motorbike now? ( 0.No  1.Yes )\n";
             cout << "Enter your choice: ";
             cin >> userType;
-            if (userType == 0) return;
-            else if (userType == 1){
-                if (renter->isRenting) {    // if the renter has already rented a motorbike
+            if (userType == 0)
+                return;
+            else if (userType == 1)
+            {
+                if (renter->isRenting)
+                { // if the renter has already rented a motorbike
                     cout << "You have rented a motorbike and cannot rent more!\n";
                     cout << "Bringing you back...\n";
                     return;
                 }
                 // call function to create new rental
-                Rental *newRental = suitableMtb[userType-1].requestToRent(renter, rentals.back().rentalId);
+                Rental *newRental = suitableMtb[userType - 1].requestToRent(renter, rentals.back().rentalId);
                 rentals.push_back(*newRental);
-                rentals.back().showInfo();      // add new rental to the vector<Rental>
-            } else {
+                rentals.back().showInfo(); // add new rental to the vector<Rental>
+            }
+            else
+            {
                 cout << "Invalid choice!\n";
                 return;
             }
@@ -183,35 +211,45 @@ void UserInterface::displayMotorbikes(vector<Motorbike>& suitableMtb, Member* re
 }
 
 // search for motorbikes that suitable with the member
-void UserInterface::searchSuitableMotorbikes(Member* member){
+void UserInterface::searchSuitableMotorbikes(Member *member)
+{
     vector<Motorbike> suitableMotorbikes;
-    for (Motorbike mt : motorbikes){    // if 1 condition does not satisfied -> skip turn
-        if (mt.ownerId == member->userId) continue;
-        else if (!mt.isAvailable) continue;
-        else if (mt.minRenterRating > member->renterRating) continue;
-        else if (mt.city != member->city) continue;
+    for (Motorbike mt : motorbikes)
+    { // if 1 condition does not satisfied -> skip turn
+        if (mt.ownerId == member->userId)
+            continue;
+        else if (!mt.isAvailable)
+            continue;
+        else if (mt.minRenterRating > member->renterRating)
+            continue;
+        else if (mt.city != member->city)
+            continue;
         suitableMotorbikes.push_back(mt);
     }
-    if (suitableMotorbikes.size() == 0){    // if the counter unchange
+    if (suitableMotorbikes.size() == 0)
+    { // if the counter unchange
         cout << "There's no suitable motorbike available!\n";
-    } else     // display the motorbikes found
-    displayMotorbikes(suitableMotorbikes, member);
+    }
+    else // display the motorbikes found
+        displayMotorbikes(suitableMotorbikes, member);
 }
 
 // display request's options and take the user's choice
-int UserInterface::displayRequestOptions(){
+int UserInterface::displayRequestOptions()
+{
     int userChoice;
     cout << "Please choose your next move:\n";
     cout << "0. Exit\n1. Accept a request\n";
     cout << "Enter your choice: ";
     cin >> userChoice;
-    switch (userChoice){
+    switch (userChoice)
+    {
     case 0:
         return userChoice;
     case 1:
         cout << "Please choose the request number that you want to accept: ";
         cin >> userChoice;
-        return userChoice;  // return the request number to accept
+        return userChoice; // return the request number to accept
         break;
     default:
         cout << "Invalid choice!\n";
@@ -221,97 +259,212 @@ int UserInterface::displayRequestOptions(){
 }
 
 // find and display all requests of member's motorbike
-void UserInterface::displayRequests(Member* owner){
+void UserInterface::displayRequests(Member *owner)
+{
     cout << "----- Requests of Motorbike " << owner->motorbike->motorId << " -----\n";
     int count = 0;
-    for (Rental& rt : rentals){
-        if (rt.motorId == owner->motorbike->motorId && rt.status == "requested"){
-            cout << count+1 << ". ";
+    for (Rental &rt : rentals)
+    {
+        if (rt.motorId == owner->motorbike->motorId && rt.status == "requested")
+        {
+            cout << count + 1 << ". ";
             rt.showInfoDetail();
             count++;
         }
     }
-    if (count == 0){    // if the counter unchanged -> no requests
+    if (count == 0)
+    { // if the counter unchanged -> no requests
         cout << "There are no requests for your motorbike!\n";
         return;
     }
     int requestAccept = displayRequestOptions();
-    if (requestAccept == 0) return;
-    else if (requestAccept > count){
+    if (requestAccept == 0)
+        return;
+    else if (requestAccept > count)
+    {
         cout << "Invalid choice!\n";
         return;
-    } else      // if the choice is valid -> accept the request
-        rentals[requestAccept-1].acceptRequest();
+    }
+    else // if the choice is valid -> accept the request
+        rentals[requestAccept - 1].acceptRequest();
+}
+
+// find and return a vector contain renting history of a member
+vector<Rental> UserInterface::findRentalHistory(Member *renter)
+{
+
+    vector<Rental> thisMemberPastRentals;
+    for (Rental r : rentals)
+    {
+
+        if (renter->userId == r.renterId && r.status == "completed")
+        {
+            thisMemberPastRentals.push_back(r);
+        }
+    }
+
+    return thisMemberPastRentals;
+}
+
+void UserInterface::viewHistory(Member *renter)
+{
+    vector<Rental> rentalHistory = UserInterface::findRentalHistory(renter);
+
+    for (Rental r : rentalHistory)
+    {
+        for (Member rt : members)
+        {
+            if (r.renterId == rt.userId)
+            {
+                r.renter = &rt;
+            }
+        }
+        for (Motorbike m : motorbikes)
+        {
+            if (r.motorId == m.motorId)
+            {
+                r.motorbike = &m;
+            }
+        }
+    }
+    if (rentalHistory.size() == 0) {
+        cout << "No renting history\n";
+        return;
+    } 
+        for (Rental r : rentalHistory)
+    {
+        r.showInfo();
+    }
+    leaveCommentAndRating(rentalHistory);
+}
+
+// function to show choice to leave comment or exit
+    int UserInterface::displayReviewAndRatingOptions() {
+        int userChoice;
+        cout << "Please choose your next move: \n";
+        cout << "0.Exit\n1.Review and Rate your experience\n";
+        cout << "Enter your choice: ";
+        cin >> userChoice;
+        switch (userChoice) {
+            case 0:
+            return userChoice;
+            case 1:
+            cout << "Please choose the rental that you want to review: ";
+            cin >> userChoice; // return the rental that user want to review
+            return userChoice;
+            break;
+            default:
+            cout << "Invalid choice!\n";
+            return 0;
+            break;            
+        } 
+    }
+
+void UserInterface::leaveCommentAndRating(vector<Rental> rentalHistory) {
+    int userChoice = displayReviewAndRatingOptions();
+    switch(userChoice) {
+        case 0:
+        return;
+        default:
+        string comment, rating;
+    cout << "----- Comment and Rating of Motorbike " << rentalHistory[userChoice - 1].motorbike->model << endl;
+    cout << "Your review on the motorbike: ";
+    getline(cin >> ws, comment);
+    cout << "Rate the motorbike: ";
+    //cin.ignore(1, '\n');
+    getline(cin, rating);
+    
+    string reviewId = FileController::generateUniqueId(motorbikeReviews.back().reviewId, "RV", 2);
+    string motorId = rentalHistory[userChoice - 1].motorId;
+    string renterId = rentalHistory[userChoice - 1].renterId;
+    motorbikeReviews.push_back(MotorbikeReview(reviewId, motorId, renterId, stod(rating), comment));
+    cout << "Thank you for your review\n";
+    return;
+    }
 }
 
 // main function for running UserInterface
-void UserInterface::runInterface(){
+void UserInterface::runInterface()
+{
     int userType = 1;
     bool isLoggedIn = false;
-    Member* loggedInMem = nullptr;
+    Member *loggedInMem = nullptr;
 
     // login before creating Member object
-    switch (userType){
+    switch (userType)
+    {
     case 0:
         cout << "Exiting Member interface...\n";
         break;
     case 1:
-        do {
-        loggedInMem = loginMember(&userType, &isLoggedIn);
-        if (userType == 0) break;
+        do
+        {
+            loggedInMem = loginMember(&userType, &isLoggedIn);
+            if (userType == 0)
+                break;
         } while (loggedInMem == nullptr);
         break;
     default:
         cout << "Invalid choice!\n";
         break;
     }
-    
+
     // after member logged in
-    while (isLoggedIn){
+    while (isLoggedIn)
+    {
         // load member's motorbike by searching from vector motorbikes
         loggedInMem->findMyMotorbike(motorbikes);
         bool hasMotorbike = (loggedInMem->motorbike != nullptr);
 
-        if (hasMotorbike){  // if member has a motorbike
+        if (hasMotorbike)
+        { // if member has a motorbike
             userType = displayMemberMenu();
-        } else      // if the member has no motorbike, display differently
+        }
+        else // if the member has no motorbike, display differently
             userType = displayMemMenuNoMotorbike();
-        
-        switch (userType){
+
+        switch (userType)
+        {
         case 0:
             isLoggedIn = false;
             cout << "Logging you out...\n";
             break;
-        case 1:     // view personal info
+        case 1: // view personal info
             break;
-        case 2:     // view motorbike info
-            if (hasMotorbike){
+        case 2: // view motorbike info
+            if (hasMotorbike)
+            {
                 loggedInMem->motorbike->showInfoDetail();
-            } else {
+            }
+            else
+            {
                 addNewMotorbike(loggedInMem);
             }
             break;
-        case 3:     // search suitable motorbikes for rental
+        case 3: // search suitable motorbikes for rental
             searchSuitableMotorbikes(loggedInMem);
             break;
-        case 4:     // list your motorbike
+        case 4: // list your motorbike
             loggedInMem->motorbike->listMotorbike();
             break;
-        case 5:     // unlist your motorbike
+        case 5: // unlist your motorbike
             loggedInMem->motorbike->unlistMotorbike();
             break;
-        case 6:     // view requests
-            if (loggedInMem->motorbike->isAvailable){   // if the motorbike is listed
+        case 6: // view requests
+            if (loggedInMem->motorbike->isAvailable)
+            { // if the motorbike is listed
                 displayRequests(loggedInMem);
-            } else
-            cout << "You have unlisted your motorbike.\n";
+            }
+            else
+                cout << "You have unlisted your motorbike.\n";
             break;
-        case 7:     // view history
+        case 7: // view history
+            viewHistory(loggedInMem);
             break;
         default:
             cout << "Invalid choice. Please try again!\n";
             break;
         }
     }
-    saveToFiles();  // saving all data to files
+    saveToFiles(); // saving all data to files
 }
