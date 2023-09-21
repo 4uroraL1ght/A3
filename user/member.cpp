@@ -46,6 +46,19 @@ string Member::formatForSaving(){
     to_string(creditPoints) + ',' + to_string(renterRating) + ',' + to_string(isRenting) + '\n';
 }
 
+// show detail information
+void Member::showInfoDetail(){
+    cout << "\n\t------ My personal information ------\n";
+    cout << "Member ID: " << userId << ";\tUsername: " << username << endl;
+    cout << "Full Name: " << fullName << ";\t Phone Number: " << phoneNumber << endl;
+    cout << "ID Type: " << idType << ";\tID Number: " << passportNum << endl;
+    cout << "Driver's License Number: " << driverLicenseNum << ";\tCity: " << city << endl;
+    cout << "Total Credit Points: " << creditPoints << endl;
+    cout << "My Rating Score as a Renter: " << renterRating << endl;
+    cout << "Am I renting a motorbike: " << (isRenting ? "Yes;\tMotorbike ID: " + motorbike->motorId : "No") << endl;
+    cout << "------------------------------------------------------\n";
+}
+
 // show info in 1 line (used by admin to easily view list of all members)
 void Member::showInfo(){
     cout << "User ID: " << userId << "; " << "Full name: " << fullName << "; Phone: " << phoneNumber << "; ID Type: " << idType
@@ -61,4 +74,17 @@ void Member::findMyMotorbike(vector<Motorbike>& motorbikes){
         }
     }
     this->motorbike = nullptr;
+}
+
+void Member::addCreditPoints(double points){
+    this->creditPoints += points;
+}
+
+void Member::performATopUp(){
+    double addedPoints = 0;
+    cout << "Your current credit points: " << creditPoints << endl;
+    cout << "Enter points you want to add: ";
+    cin >> addedPoints;
+    addCreditPoints(addedPoints);
+    cout << "Your total credit points: " << creditPoints << endl;
 }

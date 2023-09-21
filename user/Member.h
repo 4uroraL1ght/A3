@@ -23,11 +23,15 @@ class Member {
 
         string formatForSaving();
 
-        void showMyInfo();
+        void showInfoDetail();
 
         void showInfo();
 
         void findMyMotorbike(vector<Motorbike>& motorbikes);
+
+        void addCreditPoints(double points);
+
+        void performATopUp();
 
         friend class Motorbike;
         friend class Rental;

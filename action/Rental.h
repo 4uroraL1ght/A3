@@ -23,9 +23,11 @@ class Rental {
         string status;                  // status of the rental
         double totalConsumingPoints;    // total price (points)
         int duration;                   // counted by days
+        bool ownerRated, renterRated;   // to check if the owner has rated for the renter and the renter has rated for the motorbike or not
 
     public:
-        Rental(string rentalId = "", string motorId = "", string renterId = "", int bday = 1, int bmonth = 10, int eday = 5, int emonth = 10, string status = "requested");
+        Rental(string rentalId = "", string motorId = "", string renterId = "", int bday = 1, int bmonth = 10,
+        int duration = 1, string status = "requested", bool ownerRated = false, bool renterRated = false);
 
         static Rental createObject(string line);
 
@@ -36,6 +38,10 @@ class Rental {
         void showInfoDetail();
 
         void showInfo();
+
+        double getTotalConsumingPoints();
+
+        bool hasEnoughCredit();  // check if the renter have enought points to pay
 
         bool isOverlapped();    // check if the request's date is overlapped with the listed date
 

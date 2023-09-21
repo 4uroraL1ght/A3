@@ -11,8 +11,12 @@ class MemberReview {
     double rating;
     public:
     MemberReview(string reviewId, string motorId, string renterId, double rating, string comment);
+
     static MemberReview createObject(string line);
+
     string formatForSaving();
+
+    void showInfo();
 
     friend class UserInterface;
 };  
