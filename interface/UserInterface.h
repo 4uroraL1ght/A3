@@ -43,17 +43,17 @@ class UserInterface{
 
         void displayRequests(Member* owner);
 
-        vector<Rental> findRentalHistory(Member *renter);
+        vector<Rental*> findRentalHistory(Member *renter);
         void viewRentalHistory(Member *renter);
         int displayReviewAndRatingMotorOptions();
-        void leaveCommentAndRatingForMotor(vector<Rental> rentalHistory);
+        void leaveCommentAndRatingForMotor(vector<Rental*> &rentalHistory);
 
         void updateMotorbikeRating(string motorId);
 
-        vector<Rental> findRentingHistory(Member *owner);
+        vector<Rental*> findRentingHistory(Member *owner);
         void viewRentingHistory(Member *owner);
         int displayReviewAndRatingRenterOptions();
-        void leaveCommentAndRatingForRenter(vector<Rental> rentalHistory);
+        void leaveCommentAndRatingForRenter(vector<Rental*> &rentalHistory);
 
         void updateRenterRating(string renterId);
         void returnMotorbike(Member *renter);

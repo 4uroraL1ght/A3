@@ -77,7 +77,7 @@ Rental* Motorbike::requestToRent(Member* renter, string lastRentalId){
     cout << "End day: "; cin >> eday;
     cout << "End month: "; cin >> emonth;
     string rentalId = FileController::generateUniqueId(lastRentalId, "RE", 2);
-    Rental *rental = new Rental(rentalId, motorId, ownerId, bday, bmonth, eday, emonth, "requested");
+    Rental *rental = new Rental(rentalId, motorId, ownerId, bday, bmonth, eday, emonth, "requested", false, false);
     rental->motorbike = this;
     rental->renter = renter;
     cout << "Your request has been created!\n";

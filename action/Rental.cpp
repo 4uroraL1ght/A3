@@ -6,8 +6,8 @@
 
 using namespace std;
 
-Rental::Rental(string rentalId, string motorId, string renterId, int bday, int bmonth, int eday, int emonth, string status)
-: rentalId(rentalId), motorId(motorId), renterId(renterId), status(status) {
+Rental::Rental(string rentalId, string motorId, string renterId, int bday, int bmonth, int eday, int emonth, string status, bool ownerRated, bool renterRated)
+: rentalId(rentalId), motorId(motorId), renterId(renterId), status(status), ownerRated(ownerRated), renterRated(renterRated) {
     // initialize day and month in begin and end dates
     beginDate.tm_mday = bday;
     beginDate.tm_mon = bmonth;
@@ -20,6 +20,7 @@ Rental Rental::createObject(string line){
     stringstream ss(line);
     string rentalId, motorId, renterId, status, date, temp;
     int bday, bmonth, eday, emonth;
+    bool ownerRated, renterRated;
     getline(ss, rentalId, ',');
     getline(ss, motorId, ',');
     getline(ss, renterId, ',');
@@ -28,15 +29,20 @@ Rental Rental::createObject(string line){
     getline(ss, temp, ','); eday = stoi(temp);
     getline(ss, temp, ','); emonth = stoi(temp);
     getline(ss, status, ',');
+    getline(ss, temp, ',');
+    ownerRated = stoi(temp);
+    getline(ss, temp, ',');
+    renterRated = stoi(temp);
 
-    return Rental(rentalId, motorId, renterId, bday, bmonth, eday, emonth, status);
+    return Rental(rentalId, motorId, renterId, bday, bmonth, eday, emonth, status, ownerRated, renterRated);
 }
 
 // function to format the rental for saving into txt file
 string Rental::formatForSaving(){
     return rentalId + ',' + motorId + ',' + renter->userId + ',' + 
     to_string(beginDate.tm_mday) + ',' + to_string(beginDate.tm_mon) + "," +
-    to_string(endDate.tm_mday) + ',' + to_string(endDate.tm_mon) + ',' + status + '\n';
+    to_string(endDate.tm_mday) + ',' + to_string(endDate.tm_mon) + ',' + 
+    status + ',' + to_string(ownerRated) + ',' + to_string(renterRated) + '\n';
 }
 
 // function to find and assign the appropriate objects Motorbike and Member (renter) for the rental

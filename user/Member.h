@@ -23,7 +23,7 @@ class Member {
 
         string formatForSaving();
 
-        void showMyInfo();
+        void showInfoDetail();
 
         void showInfo();
 
