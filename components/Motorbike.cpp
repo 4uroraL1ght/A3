@@ -71,17 +71,21 @@ Motorbike Motorbike::createObject(string line){
 Rental* Motorbike::requestToRent(Member* renter, string lastRentalId){
     cout << "----- Create renting request (Year 2023) -----\n";
     cout << "(Please enter the following rental information)\n";
-    int bday, bmonth, eday, emonth;
+    int bday, bmonth, duration;
     cout << "Beginning day: "; cin >> bday;
     cout << "Beginning month: "; cin >> bmonth;
-    cout << "End day: "; cin >> eday;
-    cout << "End month: "; cin >> emonth;
+    cout << "Duration (How many days do you want to rent?): "; cin >> duration;
     string rentalId = FileController::generateUniqueId(lastRentalId, "RE", 2);
-    Rental *rental = new Rental(rentalId, motorId, ownerId, bday, bmonth, eday, emonth, "requested", false, false);
+    Rental *rental = new Rental(rentalId, motorId, ownerId, bday, bmonth, duration, "requested", false, false);
     rental->motorbike = this;
     rental->renter = renter;
-    cout << "Your request has been created!\n";
-    return rental;
+    if (rental->hasEnoughCredit()){
+        cout << "Your request has been created!\n";
+        return rental;
+    } else {    // if the renter doesn't have enough credit points
+        cout << "You don't have enough credit points to pay for this rental!\n";
+        return nullptr;
+    }
 }
 
 // display the current settings of listed values

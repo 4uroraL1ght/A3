@@ -29,6 +29,10 @@ class Member {
 
         void findMyMotorbike(vector<Motorbike>& motorbikes);
 
+        void addCreditPoints(double points);
+
+        void performATopUp();
+
         friend class Motorbike;
         friend class Rental;
         friend class UserInterface;

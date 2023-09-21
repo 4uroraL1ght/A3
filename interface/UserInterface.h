@@ -31,9 +31,9 @@ class UserInterface{
 
         int displayMemMenuNoMotorbike();
 
-        void addNewMotorbike(Member* member);
+        Member *findMemberById(string memId);
 
-        Member* findMemberById(string memId);
+        void addNewMotorbike(Member* member);
 
         void searchSuitableMotorbikes(Member* mem);
 
@@ -44,19 +44,32 @@ class UserInterface{
         void displayRequests(Member* owner);
 
         vector<Rental*> findRentalHistory(Member *renter);
+
         void viewRentalHistory(Member *renter);
+
         int displayReviewAndRatingMotorOptions();
+
         void leaveCommentAndRatingForMotor(vector<Rental*> &rentalHistory);
 
         void updateMotorbikeRating(string motorId);
 
         vector<Rental*> findRentingHistory(Member *owner);
+
         void viewRentingHistory(Member *owner);
+
         int displayReviewAndRatingRenterOptions();
+
         void leaveCommentAndRatingForRenter(vector<Rental*> &rentalHistory);
 
         void updateRenterRating(string renterId);
+
         void returnMotorbike(Member *renter);
+
+        void displayMotorbikeReviews(string motorId);
+
+        void displayMemberReviews(string memberId);
+
+        void viewReviewOptions(Member *member);
 
         void runInterface();
 };

@@ -75,3 +75,16 @@ void Member::findMyMotorbike(vector<Motorbike>& motorbikes){
     }
     this->motorbike = nullptr;
 }
+
+void Member::addCreditPoints(double points){
+    this->creditPoints += points;
+}
+
+void Member::performATopUp(){
+    double addedPoints = 0;
+    cout << "Your current credit points: " << creditPoints << endl;
+    cout << "Enter points you want to add: ";
+    cin >> addedPoints;
+    addCreditPoints(addedPoints);
+    cout << "Your total credit points: " << creditPoints << endl;
+}

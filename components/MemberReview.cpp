@@ -19,3 +19,8 @@ MemberReview MemberReview::createObject(string line) {
 string MemberReview::formatForSaving() {
     return reviewId + "," + motorId + "," + renterId + "," + to_string(rating) + "," + comment + '\n';
 }
+
+void MemberReview::showInfo(){
+    cout << "Review ID: " << reviewId << ";\tMotorbike Rented: " << motorId << 
+    ";\tRating Score: " << rating << ";\tComment: " << comment << endl;
+}
