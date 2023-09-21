@@ -374,7 +374,7 @@ void UserInterface::leaveCommentAndRating(vector<Rental> rentalHistory) {
     //cin.ignore(1, '\n');
     getline(cin, rating);
     
-    string reviewId = FileController::generateUniqueId(motorbikeReviews.back().reviewId, "RV", 2);
+    string reviewId = FileController::generateUniqueId(motorbikeReviews.back().reviewId, "MRV", 3);
     string motorId = rentalHistory[userChoice - 1].motorId;
     string renterId = rentalHistory[userChoice - 1].renterId;
     motorbikeReviews.push_back(MotorbikeReview(reviewId, motorId, renterId, stod(rating), comment));
