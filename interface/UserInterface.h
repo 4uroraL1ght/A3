@@ -56,6 +56,7 @@ class UserInterface{
         void leaveCommentAndRatingForRenter(vector<Rental> rentalHistory);
 
         void updateRenterRating(string renterId);
+        void returnMotorbike(Member *renter);
 
         void runInterface();
 };

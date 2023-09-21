@@ -79,6 +79,7 @@ int UserInterface::displayMemberMenu()
     cout << "6. View requests\n";
     cout << "7. View rental history\n";
     cout << "8. View renting history\n";
+    cout << "9. Return motorbike";
     cout << "Enter your choice: ";
     cin >> choice;
     return choice;
@@ -546,6 +547,29 @@ void UserInterface::updateRenterRating(string renterId) {
     }
 }
 
+// function to return motobike base on the rental status "accepted"
+void UserInterface::returnMotorbike(Member *renter) {
+    if (renter->isRenting == 0) {
+        cout << "Nothing to return\n";
+        return;
+    } else {
+        string motorId;
+        for (Rental &r : rentals) {
+            if (renter->userId == r.renterId && r.status == "accepted") {
+                r.status = "completed";
+                motorId = r.motorId;
+            }
+        }
+        for (Motorbike &m : motorbikes) {
+            if (motorId == m.motorId) {
+                m.isAvailable = 1;
+            }
+        }
+        renter->isRenting = 0;
+        cout << "Successfully return your motorbike\n";
+    }
+}
+
 // main function for running UserInterface
 void UserInterface::runInterface()
 {
@@ -626,6 +650,9 @@ void UserInterface::runInterface()
             break;
         case 8: // view rental history for owner
             viewRentingHistory(loggedInMem);
+            break;
+        case 9: // return motor
+            returnMotorbike(loggedInMem);
             break;
         default:
             cout << "Invalid choice. Please try again!\n";
