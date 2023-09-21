@@ -10,6 +10,7 @@
 #define MEMBER_FILE "data/Member.txt"
 #define RENTAL_FILE "data/Rental.txt"
 #define MOTOR_REV_FILE "data/MotorbikeReview.txt"
+#define MEM_REV_FILE "data/MemberReview.txt"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ UserInterface::UserInterface()
     this->members = FileController::loadObjects(MEMBER_FILE, Member::createObject);
     this->rentals = FileController::loadObjects(RENTAL_FILE, Rental::createObject);
     this->motorbikeReviews = FileController::loadObjects(MOTOR_REV_FILE, MotorbikeReview::createObject);
+    this->memberReviews = FileController::loadObjects(MEM_REV_FILE, MemberReview::createObject);
     loadRentalComponents();
 }
 
@@ -37,6 +39,7 @@ void UserInterface::saveToFiles()
     FileController::writeObjects(MEMBER_FILE, members);
     FileController::writeObjects(RENTAL_FILE, rentals);
     FileController::writeObjects(MOTOR_REV_FILE, motorbikeReviews);
+    FileController::writeObjects(MEM_REV_FILE, memberReviews);
 }
 
 // find and return the right member from members vector
@@ -74,7 +77,8 @@ int UserInterface::displayMemberMenu()
     cout << "4. List your motorbike\n";
     cout << "5. Unlist your motorbike\n";
     cout << "6. View requests\n";
-    cout << "7. View history\n";
+    cout << "7. View rental history\n";
+    cout << "8. View renting history\n";
     cout << "Enter your choice: ";
     cin >> choice;
     return choice;
@@ -306,31 +310,7 @@ vector<Rental> UserInterface::findRentalHistory(Member *renter)
     return thisMemberPastRentals;
 }
 
-void UserInterface::leaveCommentAndRating(vector<Rental> rentalHistory) {
-    int userChoice = displayReviewAndRatingOptions();
-    switch(userChoice) {
-        case 0:
-        return;
-        default:
-        string comment; double rating;
-    cout << "----- Comment and Rating of Motorbike " << rentalHistory[userChoice - 1].motorbike->model << endl;
-    cout << "Your review on the motorbike: ";
-    getline(cin >> ws, comment);
-    cout << "Rate the motorbike: ";
-    //cin.ignore(1, '\n');
-    // getline(cin, rating);
-    cin >> rating;
-    
-    string reviewId = FileController::generateUniqueId(motorbikeReviews.back().reviewId, "MRV", 3);
-    string motorId = rentalHistory[userChoice - 1].motorId;
-    string renterId = rentalHistory[userChoice - 1].renterId;
-    motorbikeReviews.push_back(MotorbikeReview(reviewId, motorId, renterId, rating, comment));
-    cout << "Thank you for your review\n";
-    return;
-    }
-}
-
-void UserInterface::viewHistory(Member *renter)
+void UserInterface::viewRentalHistory(Member *renter)
 {
     vector<Rental> rentalHistory = UserInterface::findRentalHistory(renter);
 
@@ -340,14 +320,14 @@ void UserInterface::viewHistory(Member *renter)
         {
             if (r.renterId == rt.userId)
             {
-                r.renter = &rt;
+                *r.renter = rt;
             }
         }
         for (Motorbike m : motorbikes)
         {
             if (r.motorId == m.motorId)
             {
-                r.motorbike = &m;
+                *r.motorbike = m;
             }
         }
     }
@@ -355,15 +335,16 @@ void UserInterface::viewHistory(Member *renter)
         cout << "No renting history\n";
         return;
     } 
-    for (int i=0; i < rentalHistory.size(); i++){
-        cout << i+1 << ". ";
-        rentalHistory[i].showInfo();
+        for (int i = 0; i < rentalHistory.size(); i++)
+    {
+        cout << i + 1 << ". ";
+        rentalHistory[i].showInfoDetail();
     }
-    leaveCommentAndRating(rentalHistory);
+    leaveCommentAndRatingForMotor(rentalHistory);
 }
 
 // function to show choice to leave comment or exit
-    int UserInterface::displayReviewAndRatingOptions() {
+    int UserInterface::displayReviewAndRatingMotorOptions() {
         int userChoice;
         cout << "Please choose your next move: \n";
         cout << "0.Exit\n1.Review and Rate your experience\n";
@@ -384,6 +365,185 @@ void UserInterface::viewHistory(Member *renter)
         } 
     }
 
+void UserInterface::leaveCommentAndRatingForMotor(vector<Rental> rentalHistory) {
+    int userChoice = displayReviewAndRatingMotorOptions();
+    switch(userChoice) {
+        case 0:
+        return;
+        default:
+        if (userChoice > rentalHistory.size() || userChoice < 0) {
+            cout << "Invalid choice!\n";
+            return;
+        }
+        string comment, rating;
+    cout << "----- Comment and Rating of Motorbike " << rentalHistory[userChoice - 1].motorbike->model << endl;
+    cout << "Your review on the motorbike: ";
+    getline(cin >> ws, comment);
+    cout << "Rate the motorbike: ";
+    //cin.ignore(1, '\n');
+    getline(cin, rating);
+    
+    string reviewId;
+    if (motorbikeReviews.size() == 0) {
+        reviewId = FileController::generateUniqueId("", "MRV", 3);
+    } else {reviewId = FileController::generateUniqueId(motorbikeReviews.back().reviewId, "MRV", 3);}
+    string motorId = rentalHistory[userChoice - 1].motorId;
+    string renterId = rentalHistory[userChoice - 1].renterId;
+    motorbikeReviews.push_back(MotorbikeReview(reviewId, motorId, renterId, stod(rating), comment));
+    updateMotorbikeRating(motorId);
+    cout << "Thank you for your review\n";
+    return;
+    }
+}
+
+// function to update the motorbike rating
+void UserInterface::updateMotorbikeRating(string motorId) {
+    vector<MotorbikeReview> ratingForMotor;
+    double sum = 0;
+    for (MotorbikeReview mr : motorbikeReviews) {
+        if (mr.motorId == motorId) {
+            ratingForMotor.push_back(mr);
+        }
+    }
+
+    for (MotorbikeReview mr : ratingForMotor) {
+        if (mr.motorId == motorId) {
+        sum += mr.ratingScore;}
+        
+    }
+    double finalRating = sum / ratingForMotor.size();
+    for (Motorbike &m : motorbikes) {
+        if (m.motorId == motorId) {
+            m.ratingScore = finalRating;
+            cout << m.ratingScore << endl;
+        }
+    }
+}
+
+// function goes to the rental vector and find all the rental whose motor's owner match with the member's ID and return a vector
+vector<Rental> UserInterface::findRentingHistory(Member *owner) {
+    vector<Rental> pastRentalForeachOwner;
+    for (Rental r : rentals) {
+        if (r.motorbike->ownerId == owner->userId && r.status == "completed") {
+            pastRentalForeachOwner.push_back(r);
+        }
+    }
+    for (Rental r : pastRentalForeachOwner) {
+        cout << r.rentalId << endl;
+    }
+    return pastRentalForeachOwner;
+}
+
+void UserInterface::viewRentingHistory(Member *owner) {
+    vector<Rental> rentalHistory = UserInterface::findRentingHistory(owner);
+
+    for (Rental r : rentalHistory)
+    {
+        for (Member rt : members)
+        {
+            if (r.renterId == rt.userId)
+            {
+                *r.renter = rt;
+            }
+        }
+        for (Motorbike m : motorbikes)
+        {
+            if (r.motorId == m.motorId)
+            {
+                *r.motorbike = m;
+            }
+        }
+    }
+    if (rentalHistory.size() == 0) {
+        cout << "No renting history\n";
+        return;
+    } 
+        for (int i = 0; i < rentalHistory.size(); i++)
+    {
+        cout << i + 1 << ". ";
+        rentalHistory[i].showInfoDetail();
+    }
+    leaveCommentAndRatingForRenter(rentalHistory);
+}
+
+// function to show choice to leave comment or exit
+    int UserInterface::displayReviewAndRatingRenterOptions() {
+        int userChoice;
+        cout << "Please choose your next move: \n";
+        cout << "0.Exit\n1.Review and Rate your User\n";
+        cout << "Enter your choice: ";
+        cin >> userChoice;
+        switch (userChoice) {
+            case 0:
+            return userChoice;
+            case 1:
+            cout << "Please choose the user that you want to review: ";
+            cin >> userChoice; // return the renter that user want to review
+            return userChoice;
+            break;
+            default:
+            cout << "Invalid choice!\n";
+            return 0;
+            break;            
+        } 
+    }
+
+void UserInterface::leaveCommentAndRatingForRenter(vector<Rental> rentalHistory) {
+    int userChoice = displayReviewAndRatingRenterOptions();
+    switch(userChoice) {
+        case 0:
+        return;
+        default:
+        if (userChoice > rentalHistory.size() || userChoice < 0) {
+            cout << "Invalid choice!\n";
+            return;
+        }
+        string comment, rating;
+    cout << "----- Comment and Rating of User " << rentalHistory[userChoice - 1].renter->username << endl;
+    cout << "Your review on this renter: ";
+    getline(cin >> ws, comment);
+    cout << "Rate the renter: ";
+    //cin.ignore(1, '\n');
+    getline(cin, rating);
+    
+    string reviewId;
+    if (memberReviews.size() == 0) {
+        reviewId = FileController::generateUniqueId("", "MBRV", 4);
+    } else {
+        reviewId = FileController::generateUniqueId(memberReviews.back().reviewId, "MBRV", 4);
+    }
+    string motorId = rentalHistory[userChoice - 1].motorId;
+    string renterId = rentalHistory[userChoice - 1].renterId;
+    memberReviews.push_back(MemberReview(reviewId, motorId, renterId, stod(rating), comment));
+    updateRenterRating(renterId);
+    cout << "Thank you for your review\n";
+    return;
+    }
+}
+
+// function to update renter rating
+void UserInterface::updateRenterRating(string renterId) {
+    vector<MemberReview> ratingForRenter;
+    double sum = 0;
+    for (MemberReview mr : memberReviews) {
+        if (mr.renterId == renterId) {
+            ratingForRenter.push_back(mr);
+        }
+    }
+    
+    for (MemberReview mr : ratingForRenter) {
+        if (mr.renterId == renterId) {
+            sum += mr.rating;
+        }
+    }
+    double finalRating = sum / ratingForRenter.size();
+    cout << finalRating << endl;
+    for (Member &m : members) {
+        if (m.userId == renterId) {
+            m.renterRating = finalRating;
+        }
+    }
+}
 
 // main function for running UserInterface
 void UserInterface::runInterface()
@@ -461,7 +621,10 @@ void UserInterface::runInterface()
                 cout << "You have unlisted your motorbike.\n";
             break;
         case 7: // view history
-            viewHistory(loggedInMem);
+            viewRentalHistory(loggedInMem);
+            break;
+        case 8: // view rental history for owner
+            viewRentingHistory(loggedInMem);
             break;
         default:
             cout << "Invalid choice. Please try again!\n";
