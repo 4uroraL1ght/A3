@@ -161,7 +161,7 @@ void UserInterface::displayMotorbikes(vector<Motorbike> &suitableMtb, Member *re
     }
     int userType = 0;
     cout << "Please choose your next move:\n";
-    cout << "0. Exit\n1. View detail motorbike\n";
+    cout << "0. Exit\n1. View detail motorbike and its reviews\n";
     cout << "Enter your choice: ";
     cin >> userType;
     switch (userType){
@@ -172,7 +172,19 @@ void UserInterface::displayMotorbikes(vector<Motorbike> &suitableMtb, Member *re
             cin >> userType;
             if (userType > 0 && (userType < suitableMtb.size() + 1)){
                 suitableMtb[userType - 1].showInfoDetail();
-                cout << "Rent this motorbike now? ( 0.No  1.Yes )\n";
+                // show motorbike's reviews
+                cout << "List of reviews for the motorbike:\n";
+                int countReviews = 0;
+                for (MotorbikeReview &motorRv : motorbikeReviews){
+                    if (motorRv.motorId == suitableMtb[userType - 1].motorId){
+                        cout << countReviews+1 << ". ";
+                        motorRv.showInfo();
+                        countReviews++;
+                    }
+                }
+                if (countReviews == 0) cout << "This motorbike has no reviews yet.\n";
+
+                cout << "\nRent this motorbike now? ( 0.No  1.Yes )\n";
                 cout << "Enter your choice: ";
                 cin >> userType;
                 if (userType == 0)
