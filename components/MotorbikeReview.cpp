@@ -5,12 +5,12 @@
 
 using namespace std;
 
-MotorbikeReview::MotorbikeReview(string reviewId, string motorId, string renterId, double ratingScore, string comment) : comment(comment), ratingScore(ratingScore),
-    motorId(motorId), renterId(renterId), reviewId(reviewId) {}
+MotorbikeReview::MotorbikeReview(string reviewId, string motorId, string renterId, double ratingScore, string comment) 
+: reviewId(reviewId), motorId(motorId), renterId(renterId), ratingScore(ratingScore), comment(comment){}
 
 // format for saving into file
 string MotorbikeReview::formatForSaving() {
-    return reviewId + "," + motorId + "," + renterId + "," + std::to_string(ratingScore) + "," + comment;
+    return reviewId + "," + motorId + "," + renterId + "," + to_string(ratingScore) + "," + comment + '\n';
 }
 
 MotorbikeReview MotorbikeReview::createObject(string line) {
@@ -24,4 +24,9 @@ MotorbikeReview MotorbikeReview::createObject(string line) {
     ratingScore = stod(temp);
     getline(ss, comment, ',');
     return MotorbikeReview(reviewId, motorId, renterId, ratingScore, comment);
+}
+
+void MotorbikeReview::showInfo(){
+    cout << "Review ID: " << reviewId << "; Motorbike ID: " << motorId << "; Renter ID: " << renterId
+    << "; Rating score: " << ratingScore << "; Comment: " << comment << endl;
 }

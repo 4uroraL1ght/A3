@@ -13,6 +13,8 @@ class MotorbikeReview {
     string formatForSaving();
     static MotorbikeReview createObject(string line);
 
+    void showInfo();
+
 
     friend class Motorbike;
     friend class Member;

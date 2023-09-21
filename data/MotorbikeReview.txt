@@ -1,1 +1,3 @@
-MRV001,M201,MB101,8,This is an excellent experience
+MRV001,M201,MB101,8.000000,This is an excellent experience
+MRV002,M201,MB101,9.500000,A nice Motorbike
+MRV003,M201,MB101,8.500000,Very good

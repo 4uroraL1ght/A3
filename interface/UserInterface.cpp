@@ -9,7 +9,7 @@
 #define MOTOR_FILE "data/Motorbike.txt"
 #define MEMBER_FILE "data/Member.txt"
 #define RENTAL_FILE "data/Rental.txt"
-#define MOTOR_REV_FILE "data/MotorbikeReview"
+#define MOTOR_REV_FILE "data/MotorbikeReview.txt"
 
 using namespace std;
 
@@ -306,6 +306,30 @@ vector<Rental> UserInterface::findRentalHistory(Member *renter)
     return thisMemberPastRentals;
 }
 
+void UserInterface::leaveCommentAndRating(vector<Rental> rentalHistory) {
+    int userChoice = displayReviewAndRatingOptions();
+    switch(userChoice) {
+        case 0:
+        return;
+        default:
+        string comment; double rating;
+    cout << "----- Comment and Rating of Motorbike " << rentalHistory[userChoice - 1].motorbike->model << endl;
+    cout << "Your review on the motorbike: ";
+    getline(cin >> ws, comment);
+    cout << "Rate the motorbike: ";
+    //cin.ignore(1, '\n');
+    // getline(cin, rating);
+    cin >> rating;
+    
+    string reviewId = FileController::generateUniqueId(motorbikeReviews.back().reviewId, "MRV", 3);
+    string motorId = rentalHistory[userChoice - 1].motorId;
+    string renterId = rentalHistory[userChoice - 1].renterId;
+    motorbikeReviews.push_back(MotorbikeReview(reviewId, motorId, renterId, rating, comment));
+    cout << "Thank you for your review\n";
+    return;
+    }
+}
+
 void UserInterface::viewHistory(Member *renter)
 {
     vector<Rental> rentalHistory = UserInterface::findRentalHistory(renter);
@@ -331,9 +355,9 @@ void UserInterface::viewHistory(Member *renter)
         cout << "No renting history\n";
         return;
     } 
-        for (Rental r : rentalHistory)
-    {
-        r.showInfo();
+    for (int i=0; i < rentalHistory.size(); i++){
+        cout << i+1 << ". ";
+        rentalHistory[i].showInfo();
     }
     leaveCommentAndRating(rentalHistory);
 }
@@ -360,28 +384,6 @@ void UserInterface::viewHistory(Member *renter)
         } 
     }
 
-void UserInterface::leaveCommentAndRating(vector<Rental> rentalHistory) {
-    int userChoice = displayReviewAndRatingOptions();
-    switch(userChoice) {
-        case 0:
-        return;
-        default:
-        string comment, rating;
-    cout << "----- Comment and Rating of Motorbike " << rentalHistory[userChoice - 1].motorbike->model << endl;
-    cout << "Your review on the motorbike: ";
-    getline(cin >> ws, comment);
-    cout << "Rate the motorbike: ";
-    //cin.ignore(1, '\n');
-    getline(cin, rating);
-    
-    string reviewId = FileController::generateUniqueId(motorbikeReviews.back().reviewId, "MRV", 3);
-    string motorId = rentalHistory[userChoice - 1].motorId;
-    string renterId = rentalHistory[userChoice - 1].renterId;
-    motorbikeReviews.push_back(MotorbikeReview(reviewId, motorId, renterId, stod(rating), comment));
-    cout << "Thank you for your review\n";
-    return;
-    }
-}
 
 // main function for running UserInterface
 void UserInterface::runInterface()
