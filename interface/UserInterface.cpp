@@ -110,9 +110,11 @@ int UserInterface::displayMemMenuNoMotorbike()
     cout << "4. View history\n";
     cout << "Enter your choice: ";
     cin >> choice;
-    if (choice >= 0 && choice <= 4)
+    if (choice >= 0 && choice <= 3)
     {
         return choice;
+    } else if (choice == 4){
+        return 7;   // to match the feature's number in MemberMenu
     }
     return -1;
 }

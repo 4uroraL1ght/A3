@@ -81,7 +81,6 @@ Rental* Motorbike::requestToRent(Member* renter, string lastRentalId){
     rental->motorbike = this;
     rental->renter = renter;
     cout << "Your request has been created!\n";
-    rental->showInfo();
     return rental;
 }
 
