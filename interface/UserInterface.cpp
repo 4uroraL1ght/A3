@@ -537,7 +537,6 @@ void UserInterface::updateRenterRating(string renterId) {
         }
     }
     double finalRating = sum / ratingForRenter.size();
-    cout << finalRating << endl;
     for (Member &m : members) {
         if (m.userId == renterId) {
             m.renterRating = finalRating;
