@@ -5,3 +5,4 @@ RE004,M201,MB102,1,2,5,completed,1,1
 RE005,M204,MB101,1,4,2,requested,0,0
 RE006,M204,MB101,10,9,10,requested,0,0
 RE007,M201,MB102,16,10,3,accepted,0,0
+RE008,M202,MB108,5,10,1,requested,0,0

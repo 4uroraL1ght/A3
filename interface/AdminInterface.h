@@ -11,10 +11,11 @@
 using namespace std;
 
 class AdminInterface{
-    public:
+    private:
         vector<Motorbike> motorbikes;
         vector<Member> members;
         vector<Rental> rentals;
+    public:
         
         AdminInterface();
 

@@ -1,3 +1,7 @@
+/* Acknowledgment:
+1. https://en.cppreference.com/w/cpp/chrono 
+2. https://cplusplus.com/reference/ */
+
 #include <iostream>
 #include <string>
 #include <vector>
