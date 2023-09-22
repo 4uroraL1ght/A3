@@ -7,9 +7,9 @@
 using namespace std;
 
 class GuestInterface{
-    public:
+    private:
         vector<Motorbike> motorbikes;
-
+    public:
         GuestInterface();
         
         void saveToFiles();

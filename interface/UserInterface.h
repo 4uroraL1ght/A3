@@ -12,13 +12,13 @@
 using namespace std;
 
 class UserInterface{
-    public:
+    private:
         vector<Motorbike> motorbikes;
         vector<Member> members;
         vector<Rental> rentals;
         vector<MotorbikeReview> motorbikeReviews; 
         vector<MemberReview> memberReviews;
-        
+    public:
         UserInterface();
 
         void saveToFiles();

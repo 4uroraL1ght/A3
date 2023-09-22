@@ -2,4 +2,4 @@ M201,MB101,QJMotor,red,2500,automatic,A classic motorbike with a four-cylinder,2
 M202,MB102,Ducati,blue,2500,semi automatic,A high-performance sportbike with a liquid-cooled engine,2020,7.300000,Ha Noi,1,6.500000,5.000000,27,9,15
 M203,MB103,Motor,white,2000,automatic,New motorbike,2022,6.000000,Ha Noi,1,1.050000,9.000000,2,10,15
 M204,MB104,BMW,red white,2300,automatic,A classic model,2022,6.500000,Sai Gon,1,5.000000,0.000000,15,10,30
-M205,MB107,Honda RS230,white,1500,manual,The newest version of Honda,2023,7.5,Sai Gon,1,6,0,22,9,20
+M205,MB107,Honda RS230,white,1500,manual,The newest version of Honda,2023,7.500000,Sai Gon,1,6.000000,0.000000,22,9,20
