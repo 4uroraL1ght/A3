@@ -11,6 +11,8 @@ Rental::Rental(string rentalId, string motorId, string renterId, int bday, int b
     // initialize day and month in begin and end dates
     beginDate.tm_mday = bday;
     beginDate.tm_mon = bmonth;
+    beginDate.tm_year = 2023 - 1900;
+    calculateEndDate();
 }
 
 // static function to create and return new Rental object
@@ -40,13 +42,12 @@ Rental Rental::createObject(string line){
 string Rental::formatForSaving(){
     return rentalId + ',' + motorId + ',' + renter->userId + ',' + 
     to_string(beginDate.tm_mday) + ',' + to_string(beginDate.tm_mon) + "," +
-    // to_string(endDate.tm_mday) + ',' + to_string(endDate.tm_mon) + ',' + 
     to_string(duration) + ',' +
     status + ',' + to_string(ownerRated) + ',' + to_string(renterRated) + '\n';
 }
 
 // function to find and assign the appropriate objects Motorbike and Member (renter) for the rental
-bool Rental::loadComponents(vector<Motorbike>& motorbikes, vector<Member>& members){
+bool Rental::loadComponents(vector<Motorbike> &motorbikes, vector<Member>& members){
     for (auto& mt : motorbikes){    // find the motorbike's object
         if (this->motorId == mt.motorId){
             this->motorbike = &mt;
@@ -72,9 +73,9 @@ void Rental::showInfoDetail(){
     cout << "Renter: " << renter->fullName << "\tID: " << renter->userId;
     cout << "\nRenter's rating score: " << renter->renterRating << endl;
     cout << "Begin Date: " << beginDate.tm_mday << '/' << beginDate.tm_mon << "/2023\n";
+    cout << "End Date: " << endDate.tm_mday << '/' << endDate.tm_mon << '/' << endDate.tm_year << endl;
     cout << "Renting Duration: " << duration << " days\n";
-    // cout << "End Date: " << endDate.tm_mday << '/' << endDate.tm_mon << "/2023" << endl;
-    cout << "Total of consuming points: " << getTotalConsumingPoints() << endl;    // haven't handled
+    cout << "Total of consuming points: " << getTotalConsumingPoints() << endl;
     cout << "Current Status: " << status << endl;
     cout << "-------------------------------\n";
 }
@@ -82,8 +83,8 @@ void Rental::showInfoDetail(){
 // show info in 1 line for admin
 void Rental::showInfo(){
     cout << "ID: " << rentalId << ";  Onwer ID: " << motorbike->ownerId << ";  Motorbike ID: " << motorId
-    << ";  Renter ID: " << renterId << "; Duration: " << duration << " days;  Renting Date: " << endDate.tm_mday << '/' << endDate.tm_mon << 
-    // "/2023 to " << endDate.tm_mday << '/' << endDate.tm_mon << 
+    << ";  Renter ID: " << renterId << "; Duration: " << duration << " days;  Renting Date: " << beginDate.tm_mday << '/' 
+    << beginDate.tm_mon << "/2023 to " << endDate.tm_mday << '/' << endDate.tm_mon << '/' << endDate.tm_year <<
     "/2023;  Total Points: " << getTotalConsumingPoints() << ";  Status: " << status << '\n';
 }
 
@@ -97,12 +98,80 @@ bool Rental::hasEnoughCredit(){
     return (renter->creditPoints >= getTotalConsumingPoints());
 }
 
-void Rental::acceptRequest(){
+void Rental::acceptRequest(vector<Rental> &rentals){
     this->status = "accepted";
     this->renter->creditPoints -= getTotalConsumingPoints();     // subtract credit points from the renter
     renter->isRenting = true;     // update that the member is renting a motorbike
+    int countReject = 0;
+    for (Rental &r : rentals){
+        // if other rentals with the same motorbike id and status "requested"
+        if (r.rentalId != this->rentalId && r.motorId == this->motorId && r.status == "requested"){
+            if (isOverlapped(r)){   // if the two rentals are overlapped
+                r.rejectRequest();
+                countReject++;
+            }
+        }
+    }
+    cout << "Request ID " << rentalId << " has been accepted.\n";
+    cout << countReject << " Request(s) have been rejected.\n";
 }
 
 void Rental::rejectRequest(){
     this->status = "rejected";
+}
+
+// calculate and assign the end date of renting
+void Rental::calculateEndDate() {
+    // create int array to store days in each month (not include leap years)
+    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    // store begin date in temp variable to calculate the end date
+    tm endDateTemp = beginDate;
+    endDateTemp.tm_mday += duration; // add the duration to begin day
+
+    // handle rollover of days
+    while (endDateTemp.tm_mday > daysInMonth[endDateTemp.tm_mon]) {
+        endDateTemp.tm_mday -= daysInMonth[endDateTemp.tm_mon];
+        endDateTemp.tm_mon++;
+        if (endDateTemp.tm_mon == 12) { // switch to the next year
+            endDateTemp.tm_mon = 0;
+            endDateTemp.tm_year++;
+        }
+    }
+    endDate = endDateTemp;
+}
+
+// compare valid date for renting
+bool Rental::isValidRentalDate(){
+    // convert to time_t type for comparison
+    time_t rentalBegin = mktime(&this->beginDate);
+    time_t rentalEnd = mktime(&this->endDate);
+    time_t motorBegin = mktime(&motorbike->beginDate);
+    time_t motorEnd = mktime(&motorbike->endDate);
+
+    // check if the rental dates fall in available dates of the motorbike
+    return (rentalBegin >= motorBegin && rentalEnd <= motorEnd);
+}
+
+// check if two rentals are overlapped
+bool Rental::isOverlapped(Rental &other) {
+    // convert to time_t type for comparison
+    time_t rentalBegin = mktime(&this->beginDate);
+    time_t rentalEnd = mktime(&this->endDate);
+    time_t otherBegin = mktime(&other.beginDate);
+    time_t otherEnd = mktime(&other.endDate);
+
+    // check if the rental dates overlap with the other dates
+    // return true if two rentals are overlapped
+    if ( otherBegin >= rentalBegin && otherEnd <= rentalEnd){
+        return true;
+    } else if (otherBegin <= rentalBegin && otherEnd >= rentalEnd){
+        return true;
+    } else if (otherBegin <= rentalBegin && otherEnd >= rentalBegin){
+        return true;
+    } else if (otherBegin <= rentalEnd && otherEnd >= rentalEnd){
+        return true;
+    } else {
+        return false;
+    }
 }

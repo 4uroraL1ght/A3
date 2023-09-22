@@ -198,11 +198,8 @@ void UserInterface::displayMotorbikes(vector<Motorbike> &suitableMtb, Member *re
                     }
                     // call function to create new rental
                     Rental *newRental = suitableMtb[userType - 1].requestToRent(renter, rentals.back().rentalId);
-                    if (newRental == nullptr){  // renter doesn't have enought credit points
-                        cout << "Do you want to perform a top up? (0.No 1.Yes)\n";
-                        int choice; cin >> choice;
-                        if (choice == 1) renter->performATopUp();
-                        else return;
+                    if (newRental == nullptr){
+                        cout << "Failed to create a request!\n";
                     } else {
                         rentals.push_back(*newRental);
                         rentals.back().showInfo(); // add new rental to the vector<Rental>
@@ -290,7 +287,7 @@ void UserInterface::displayRequests(Member *owner){
         return;
     }
     else // if the choice is valid -> accept the request
-        rentals[indices[requestAccept-1]].acceptRequest();
+        rentals[indices[requestAccept-1]].acceptRequest(rentals);
 }
 
 // find and return a vector contain renting history of a member

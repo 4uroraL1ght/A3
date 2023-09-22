@@ -31,7 +31,7 @@ class Rental {
 
         static Rental createObject(string line);
 
-        bool loadComponents(vector<Motorbike>& motorbikes, vector<Member>& members);
+        bool loadComponents(vector<Motorbike> &motorbikes, vector<Member>& members);
 
         string formatForSaving();
 
@@ -45,9 +45,15 @@ class Rental {
 
         bool isOverlapped();    // check if the request's date is overlapped with the listed date
 
-        void acceptRequest();
+        void acceptRequest(vector<Rental> &rentals);
 
         void rejectRequest();
+
+        void calculateEndDate();
+
+        bool isValidRentalDate();
+
+        bool isOverlapped(Rental &other);
 
         // give access for other classes
         friend class Motorbike;
