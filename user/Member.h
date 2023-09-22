@@ -17,7 +17,7 @@ class Member {
 
     public:
         Member(string userId="", string username="", string password="", string fullName="", string phoneNumber="", string idType="", string passportNum="",
-        string driverLicenseNum="", string expiryDate="", string city="Sai Gon", double creditPoints=20, double renterRating=0, bool isRenting = false);
+        string driverLicenseNum="", string expiryDate="", string city="Sai Gon", double creditPoints=20, double renterRating=10, bool isRenting = false);
 
         static Member createObject(string line);
 

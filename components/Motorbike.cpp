@@ -36,16 +36,16 @@ void Motorbike::showInfo(){
 
 // show detail info
 void Motorbike::showInfoDetail(){
-    cout << "------ Motorbike information ------" << endl;
+    cout << "\n\t------ Motorbike information ------" << endl;
     cout << "Motorbike ID: " << motorId << "\tOwner ID: " << ownerId << "\tCity: " << city << endl;
     cout << "Model: " << model << "\tColor: " << color << "\nEngine Size: " << engineSize << endl;
     cout << "Transmission Mode: " << transmissionMode << "\tYear Made: " << yearMade << endl;
     cout << "Description: " << description << endl;
-    cout << "Consuming Point: " << consumingPoints << endl;
-    cout << "Rating Score: " << ratingScore << "\tAvailable: " << (isAvailable ? "Yes":"No");
-    cout << "\nAvailable within " << duration << " days: From: " << beginDay << '/' <<
-    beginMonth << "/2023 to " << endDate.tm_mday << "/" << endDate.tm_mon << "/2023\n";
-    cout << "-----------------------------------\n";
+    cout << "Consuming Point: " << consumingPoints << "\nMinimun rating required for renters: " << minRenterRating << endl; 
+    cout << "Rating Score: " << ratingScore << "\t\tAvailable: " << (isAvailable ? "Yes":"No");
+    cout << "\nAvailable within " << duration << " days: From: " << beginDate.tm_mday << '/' <<
+    beginDate.tm_mon << "/2023 to " << endDate.tm_mday << "/" << endDate.tm_mon << "/2023\n";
+    cout << "--------------------------------------------------------\n";
     cout << endl;
 }
 
@@ -110,7 +110,7 @@ Rental* Motorbike::requestToRent(Member* renter, string lastRentalId){
 // display the current settings of listed values
 bool Motorbike::changeCurrentSettings(){
     unsigned int choice;
-    cout << "----- Your current setting for the motorbike -----\n";
+    cout << "\n----- Your current setting for the motorbike -----\n";
     cout << "Available time: From " << beginDay << '/' << beginMonth << "/2023 to " 
     << endDate.tm_mday << '/' << endDate.tm_mon << '/' << endDate.tm_year << endl;
     cout << "Duration: " << duration << " days.\n";
@@ -127,20 +127,24 @@ bool Motorbike::changeCurrentSettings(){
 
 // list the motorbike and set constraints
 void Motorbike::listMotorbike(){
+    int bday, bmonth;
     if (changeCurrentSettings()){
         // Available time settings
         cout << "Set available date\n";
         cout << "Enter begin date: ";
-        cin >> beginDay;
+        cin >> bday;
         cout << "Enter begin month: ";
-        cin >> beginMonth;
-        if (isValidDate(beginDay, beginMonth)){
+        cin >> bmonth;
+        if (isValidDate(bday, bmonth)){
             cout << "Enter available time (days): ";
             cin >> duration;
             cout << "Enter consuming points (per day): ";
             cin >> consumingPoints;
             cout << "Enter minimum required renter-rating: ";
             cin >> minRenterRating;
+            beginDate.tm_mday = bday;
+            beginDate.tm_mon = bmonth;
+            calculateEndDate();     // update the endDate
         } else {
             cout << "Invalid date! Failed to list the motorbike.\n";
             return;
@@ -148,9 +152,8 @@ void Motorbike::listMotorbike(){
     }
     // make the motorbike available
     this->isAvailable = true;
-    beginDate.tm_mday = beginDay;
-    beginDate.tm_mon = beginMonth;
-    calculateEndDate();     // update the endDate
+    cout << "You have listed your motorbike!\n";
+    showInfoDetail();
 }
 
 // unlist the motorbike: make it unavailable

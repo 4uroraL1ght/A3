@@ -53,8 +53,6 @@ class Rental {
 
         bool isValidRentalDate();
 
-        bool isOverlapped(Rental &other);
-
         // give access for other classes
         friend class Motorbike;
         friend class Member;

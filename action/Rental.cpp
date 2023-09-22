@@ -104,12 +104,10 @@ void Rental::acceptRequest(vector<Rental> &rentals){
     renter->isRenting = true;     // update that the member is renting a motorbike
     int countReject = 0;
     for (Rental &r : rentals){
-        // if other rentals with the same motorbike id and status "requested"
+        // if other rentals with the same motorbike id and status "requested" -> reject
         if (r.rentalId != this->rentalId && r.motorId == this->motorId && r.status == "requested"){
-            if (isOverlapped(r)){   // if the two rentals are overlapped
-                r.rejectRequest();
-                countReject++;
-            }
+            r.rejectRequest();
+            countReject++;
         }
     }
     cout << "Request ID " << rentalId << " has been accepted.\n";
@@ -151,27 +149,4 @@ bool Rental::isValidRentalDate(){
 
     // check if the rental dates fall in available dates of the motorbike
     return (rentalBegin >= motorBegin && rentalEnd <= motorEnd);
-}
-
-// check if two rentals are overlapped
-bool Rental::isOverlapped(Rental &other) {
-    // convert to time_t type for comparison
-    time_t rentalBegin = mktime(&this->beginDate);
-    time_t rentalEnd = mktime(&this->endDate);
-    time_t otherBegin = mktime(&other.beginDate);
-    time_t otherEnd = mktime(&other.endDate);
-
-    // check if the rental dates overlap with the other dates
-    // return true if two rentals are overlapped
-    if ( otherBegin >= rentalBegin && otherEnd <= rentalEnd){
-        return true;
-    } else if (otherBegin <= rentalBegin && otherEnd >= rentalEnd){
-        return true;
-    } else if (otherBegin <= rentalBegin && otherEnd >= rentalBegin){
-        return true;
-    } else if (otherBegin <= rentalEnd && otherEnd >= rentalEnd){
-        return true;
-    } else {
-        return false;
-    }
 }

@@ -28,7 +28,7 @@ class Motorbike{
         // set default attribute values in constructor
         Motorbike(string motorId = "", string ownerId = "", string model = "None", string color = "black", string engineSize = "None", string transmissionMode = "None", 
         string description = "None", unsigned int yearMade = 2023, double consumingPoints = 1, string city = "Sai Gon", bool isAvailable = false, 
-        double minRenterRating = 0, double ratingScore = 0, int beginDay = 1, int beginMonth = 10, int duration = 20);
+        double minRenterRating = 0, double ratingScore = 10, int beginDay = 1, int beginMonth = 10, int duration = 20);
 
         ~Motorbike();
 

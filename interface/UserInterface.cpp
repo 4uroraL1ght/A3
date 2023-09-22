@@ -202,7 +202,7 @@ void UserInterface::displayMotorbikes(vector<Motorbike> &suitableMtb, Member *re
                         cout << "Failed to create a request!\n";
                     } else {
                         rentals.push_back(*newRental);
-                        rentals.back().showInfo(); // add new rental to the vector<Rental>
+                        rentals.back().showInfoDetail(); // add new rental to the vector<Rental>
                     }
                 } else {
                     cout << "Invalid choice!\n";
