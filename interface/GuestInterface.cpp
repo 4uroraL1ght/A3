@@ -41,7 +41,7 @@ void GuestInterface::registerMember(){
 
         // Set default values
         double creditPoints = 20.0;
-        double renterRating = 0.0;
+        double renterRating = 10.0;
         bool isRenting = false;
 
         // Prompt the user to input registration details
@@ -56,7 +56,7 @@ void GuestInterface::registerMember(){
         cout << "Enter your ID/passport number: "; cin >> passportNum;
         cout << "Enter your driver's license number: "; cin >> driverLicenseNum;
         cout << "Enter your license expiry date (dd-mm-yyyy format): "; cin >> expiryDate;
-        cout << "Enter your city: "; cin.ignore(); getline(cin, city);
+        cout << "Enter your city (Sai Gon/ Ha Noi): "; cin.ignore(); getline(cin, city);
 
         // Appending new member details
         ofstream memberFile("data/Member.txt", ios::app);
@@ -98,7 +98,6 @@ void GuestInterface::registerMember(){
             cout << "Enter motorbike description: "; getline(cin >> ws, description);
             cout << "Enter motorbike year made: "; cin >> yearMade;
             cout << "Enter motorbike consuming points: "; cin >> consumingPoints;
-            cout << "Enter motorbike city: "; getline(cin >> ws, city);
             cout << "Is the motorbike available? (1 for yes, 0 for no): "; cin >> isAvailable;
             cout << "Enter the minimum renter rating for the motorbike: "; cin >> minRenterRating;
 
@@ -112,7 +111,7 @@ void GuestInterface::registerMember(){
         motorbikeFile << motorId << "," << userId << "," << model << "," << color << "," << engineSize << ",";
         motorbikeFile << transmissionMode << "," << description << "," << yearMade << ",";
         motorbikeFile << consumingPoints << "," << city << "," << isAvailable << ",";
-        motorbikeFile << minRenterRating << ',' << ratingScore << endl;
+        motorbikeFile << minRenterRating << ',' << ratingScore << ",22,9,20" << endl;
         motorbikeFile.close();
     }
 

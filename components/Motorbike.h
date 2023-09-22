@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <ctime>
+#include <chrono>
 #include "../user/Member.h"
 #include "../action/Rental.h"
 #include "../action/FileController.h"
@@ -14,19 +16,19 @@ class Rental;
 
 class Motorbike{
     private:
-        // Member* owner = nullptr;
         string motorId, ownerId, model, color, engineSize, transmissionMode, description, city;
-        unsigned int yearMade;
+        unsigned int yearMade, beginDay, beginMonth, duration;  // available time of the motorbike
         double consumingPoints, minRenterRating, ratingScore;
         bool isAvailable;
-        // vector<Rental> rentals;    // store both accepted and requesting rentals
+        tm beginDate, endDate;     // available time of motorbike (from beginDate to endDate)
 
     public:
         Motorbike();
         
         // set default attribute values in constructor
-        Motorbike(string motorId = "", string ownerId = "", string model = "None", string color = "black", string engineSize = "None", string transmissionMode = "None", string description = "None",
-        unsigned int yearMade = 2023, double consumingPoints = 1, string city = "Sai Gon", bool isAvailable = false, double minRenterRating = 0, double ratingScore = 0);
+        Motorbike(string motorId = "", string ownerId = "", string model = "None", string color = "black", string engineSize = "None", string transmissionMode = "None", 
+        string description = "None", unsigned int yearMade = 2023, double consumingPoints = 1, string city = "Sai Gon", bool isAvailable = false, 
+        double minRenterRating = 0, double ratingScore = 10, int beginDay = 1, int beginMonth = 10, int duration = 20);
 
         ~Motorbike();
 
@@ -52,6 +54,10 @@ class Motorbike{
 
         // remove rating filter for renters
         void unlistMotorbike();
+
+        void calculateEndDate();
+
+        bool isValidDate(int day, int month);
 
         friend class Member;
         friend class Rental;
