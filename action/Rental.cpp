@@ -1,6 +1,6 @@
 /* Acknowledgment:
-1. https://en.cppreference.com/w/cpp/chrono 
-2. https://cplusplus.com/reference/ */
+[1] cplusplus.com. "<ctime> (time.h)." cplusplus.com. [Online]. Available: https://cplusplus.com/reference/ctime/ (accessed Sep. 21, 2023).
+[2] cppreference.com. "std::ctime." cppreference.com. [Online]. Available: https://cplusplus.com/reference/ (accessed Sep. 21, 2023). */
 
 #include <iostream>
 #include <string>
